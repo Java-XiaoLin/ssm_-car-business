@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Employee">
+    <!--@Table employee-->
+    <id column="e_id" property="id"/>
+    <result column="e_username" property="username"/>
+    <result column="e_name" property="name"/>
+    <result column="e_password" property="password"/>
+    <result column="e_email" property="email"/>
+    <result column="e_age" property="age"/>
+    <result column="e_admin" property="admin"/>
+    <result column="dept_id" property="deptId"/>
+    <result column="e_status" property="status"/>
+    <association property="department" javaType="cn.linstudy.domain.Department">
+      <result property="id" column="d_id"/>
+      <result property="sn" column="d_sn"/>
+      <result property="name" column="d_name"/>
+      <result property="id" column="d_id"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    username,
+    `name`,
+    `password`,
+    email,
+    age,
+    `admin`,
+    dept_id,
+    `status`
+  </sql>
+  <sql id="BASE_WHERE">
+    <where>
+      <if test="keyword != null and keyword != ''">
+        and (e.username like concat('%',#{keyword},'%') or (e.email like
+        concat('%',#{keyword},'%')))
+      </if>
+      <if test="dept_id != null">
+        and e.dept_id = #{dept_id}
+      </if>
+      and e.status = true
+    </where>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select e.id         e_id,
+           e.username   e_username,
+           e.`name`     e_name,
+           e.`password` e_password,
+           e.email      e_email,
+           e.age        e_age,
+           e.`admin`    e_admin,
+           e.dept_id,
+           e.`status`   e_status,
+           d.id         d_id,
+           d.`name`     d_name,
+           d.sn         d_sn,
+           d.status     d_status
+    from employee e
+           left join department d on d.id = e.dept_id
+    where e.id = #{id}
+      and e.status = true
+  </select>
+  <select id="listForDeptId" resultType="int">
+    select count(1)
+    from employee
+    where dept_id = #{id}
+      and status = true
+  </select>
+  <select id="selectByUsername" resultType="cn.linstudy.domain.Employee">
+    select
+    <include refid="Base_Column_List"/>
+    from employee
+    where username = #{username}
+      and status = true
+  </select>
+  <select id="selectAll" resultType="cn.linstudy.domain.Employee">
+    select
+    <include refid="Base_Column_List"/>
+    from employee
+    where status = true
+  </select>
+  <select id="selectRolesById" resultType="cn.linstudy.domain.Role">
+    select r.id,r.NAME,r.sn
+    from employee e
+    join employee_role e_r
+      on e_r.employee_id = e.id
+    join role r
+      on r.id = e_r.role_id
+    where
+      e.id = #{empId}
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select e.id         e_id,
+           e.username   e_username,
+           e.`name`     e_name,
+           e.`password` e_password,
+           e.email      e_email,
+           e.age        e_age,
+           e.`admin`    e_admin,
+           e.dept_id,
+           e.`status`   e_status,
+           d.id         d_id,
+           d.`name`     d_name,
+           d.sn         d_sn,
+           d.status     d_status
+    from employee e
+           left join department d on d.id = e.dept_id
+    <include refid="BASE_WHERE"/>
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update employee
+    set status = false
+    where id = #{id}
+  </update>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Employee"
+    useGeneratedKeys="true">
+    insert into employee (username, `name`, `password`, email, age, `admin`, dept_id,
+                          `status`)
+    values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{deptId},
+            #{status})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.Employee" useGeneratedKeys="true">
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="admin != null">
+        `admin`,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="age != null">
+        #{age},
+      </if>
+      <if test="admin != null">
+        #{admin},
+      </if>
+      <if test="deptId != null">
+        #{deptId},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertRelation">
+    insert into employee_role (employee_id, role_id)
+    values (#{employeeId}, #{roleId})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Employee">
+    update employee
+    <set>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="name != null">
+        `name` = #{name},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="age != null">
+        age = #{age},
+      </if>
+      <if test="admin != null">
+        `admin` = #{admin},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Employee">
+    update employee
+    set username   = #{username},
+        `name`     = #{name},
+        `password` = #{password},
+        email      = #{email},
+        age        = #{age},
+        `admin`    = #{admin},
+        dept_id    = #{deptId},
+        `status`   = #{status}
+    where id = #{id}
+  </update>
+  <update id="deleteRelation">
+    update employee_role
+    set status = false
+    where employee_id = #{empId}
+  </update>
+</mapper>

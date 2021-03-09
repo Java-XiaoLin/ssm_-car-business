@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.PermissionMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Permission">
+    <!--@Table permission-->
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="expression" property="expression" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, expression
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from permission
+    where id = #{id}
+  </select>
+	<select id="selectForPage" resultType="cn.linstudy.domain.Permission">
+		select <include refid="Base_Column_List"/>
+		from permission
+	</select>
+	<select id="selectAll" resultType="cn.linstudy.domain.Permission">
+		select <include refid="Base_Column_List"/>
+		from permission
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from permission
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Permission" useGeneratedKeys="true">
+    insert into permission (`name`, expression)
+    values (#{name}, #{expression})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Permission" useGeneratedKeys="true">
+    insert into permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="expression != null">
+        expression,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="expression != null">
+        #{expression},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Permission">
+    update permission
+    <set>
+      <if test="name != null">
+        `name` = #{name},
+      </if>
+      <if test="expression != null">
+        expression = #{expression},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Permission">
+    update permission
+    set `name` = #{name},
+      expression = #{expression}
+    where id = #{id}
+  </update>
+
+  <delete id="deleteByExpression">
+		delete from permission where expression = #{expression}
+	</delete>
+
+  <select id="selectPermissionByRoleId" resultMap="BaseResultMap">
+    select p.name,p.id,p.expression
+    from permission p
+    join role_permission r_p
+    on r_p.permission_id = p.id
+    join role r
+    on r.id = r_p.role_id
+    where role_id = #{roleId}
+  </select>
+</mapper>
