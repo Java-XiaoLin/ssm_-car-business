@@ -3,9 +3,11 @@ package cn.linstudy.service.impl;
 import cn.linstudy.domain.Role;
 import cn.linstudy.qo.EmployeeQueryObject;
 import cn.linstudy.qo.response.ResponseResult;
+import cn.linstudy.vo.EmployeeInsertVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.linstudy.domain.Employee;
@@ -85,22 +87,25 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public ResponseResult login(String username, String password) {
-    if (StringUtils.isEmpty(username)) {
-      return new ResponseResult(false, "用户名不可以为空");
+  public ResponseResult login(String username, String password,String captcha,String code_in_session) {
+    if (!captcha.equalsIgnoreCase(code_in_session)){
+      return  new ResponseResult(false, "验证码错误");
+    }else {
+      if (StringUtils.isEmpty(username)) {
+        return new ResponseResult(false, "用户名不可以为空");
+      }
+      if (StringUtils.isEmpty(password)) {
+        return new ResponseResult(false, "密码不可以为空");
+      }
+      Employee employee = employeeMapper.selectByUsername(username);
+      if (employee == null) {
+        return new ResponseResult(false, "用户名错误");
+      }
+      if (!employee.getPassword().equals(password)) {
+        return new ResponseResult(false, "密码错误");
+      }
+      return new ResponseResult(true, "登录成功",employee);
     }
-    if (StringUtils.isEmpty(password)) {
-      return new ResponseResult(false, "密码不可以为空");
-    }
-    Employee employee = employeeMapper.selectByUsername(username);
-    if (employee == null) {
-      return new ResponseResult(false, "用户名错误");
-    }
-    if (!employee.getPassword().equals(password)) {
-      return new ResponseResult(false, "密码错误");
-    }
-    return new ResponseResult(true, "登录成功");
-
   }
 
   @Override
@@ -111,6 +116,16 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   public List<Role> selectRolesById(Long id) {
     return employeeMapper.selectRolesById(id);
+  }
+
+  @Override
+  public Employee selectByUsername(String username) {
+    return employeeMapper.selectByUsername(username);
+  }
+
+  @Override
+  public void regsiter(EmployeeInsertVO employeeVO) {
+     employeeMapper.register(employeeVO);
   }
 
 

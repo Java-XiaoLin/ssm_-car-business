@@ -9,12 +9,14 @@ cn\linstudy\controller\RoleController.class
 cn\linstudy\controller\DepartmentController.class
 cn\linstudy\service\impl\EmployeeServiceImpl.class
 cn\linstudy\service\PermissionService.class
+cn\linstudy\utils\VerifyCodeUtils.class
 cn\linstudy\controller\PermissionController.class
 cn\linstudy\qo\DepartmentQueryObject.class
 cn\linstudy\service\impl\RoleServiceImpl.class
 cn\linstudy\service\impl\DepartmentServiceImpl.class
 cn\linstudy\mapper\EmployeeMapper.class
 cn\linstudy\qo\QueryObject.class
+cn\linstudy\vo\EmployeeInsertVO.class
 cn\linstudy\mapper\DepartmentMapper.class
 cn\linstudy\qo\RoleQueryObject.class
 cn\linstudy\domain\Permission.class

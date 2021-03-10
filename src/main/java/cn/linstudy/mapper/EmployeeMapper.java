@@ -5,6 +5,7 @@ import cn.linstudy.domain.Employee;
 import cn.linstudy.domain.Role;
 import cn.linstudy.qo.DepartmentQueryObject;
 import cn.linstudy.qo.EmployeeQueryObject;
+import cn.linstudy.vo.EmployeeInsertVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -43,4 +44,6 @@ public interface EmployeeMapper {
     void deleteRelation(Long empId);
 
     List<Role> selectRolesById(Long empId);
+
+    void register(EmployeeInsertVO employeeVO);
 }

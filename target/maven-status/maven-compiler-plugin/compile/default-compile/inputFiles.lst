@@ -18,11 +18,14 @@ D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\service\impl\Permissio
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\domain\Permission.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\service\impl\EmployeeServiceImpl.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\service\EmployeeService.java
+D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\controller\RegisterController.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\controller\EmployeeController.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\controller\DepartmentController.java
+D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\utils\VerifyCodeUtils.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\qo\response\ResponseResult.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\mapper\DepartmentMapper.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\controller\PermissionController.java
+D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\utils\EmailUtils.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\controller\RoleController.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\service\DepartmentService.java
 D:\Idea-project\SSM_CarBusiness\src\main\java\cn\linstudy\service\impl\DepartmentServiceImpl.java

@@ -31,5 +31,5 @@ public interface PermissionMapper {
 
     void deleteByExpression(String expression);
 
-  List<Permission> selectPermissionByRoleId(Long roleId);
+    List<Permission> selectPermissionByRoleId(Long roleId);
 }

@@ -10,13 +10,20 @@
     <context:component-scan base-package="cn.linstudy.controller"/>
     <!-- 配置 MVC 注解解析器, 时间注解, JSON 注解 -->
     <mvc:annotation-driven/>
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--&lt;!&ndash;            静态资源和动态资源同时拦截&ndash;&gt;-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <bean class="cn.linstudy.interceptor.CheckLoginInterceptor"/>-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
+    <mvc:default-servlet-handler/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+<!--            静态资源和动态资源同时拦截-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/getImage"/>
+            <mvc:exclude-mapping path="/empLogin"/>
+            <mvc:exclude-mapping path="/getEmailCode"/>
+            <mvc:exclude-mapping path="/checkEmail"/>
+            <mvc:exclude-mapping path="/checkUsername"/>
+            <bean class="cn.linstudy.interceptor.CheckLoginInterceptor"/>
+
+        </mvc:interceptor>
+    </mvc:interceptors>
     <mvc:default-servlet-handler/>
     <!-- 注册 FreeMarker 配置类 -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

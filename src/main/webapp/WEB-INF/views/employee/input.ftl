@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="dept" class="col-sm-2 control-label">部门：</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="dept" name="dept.id">
+                            <select class="form-control" id="dept" name="deptId">
                                 <#list departments as department>
                                     <option value="${department.id}" >${department.name}</option>
                                 </#list>

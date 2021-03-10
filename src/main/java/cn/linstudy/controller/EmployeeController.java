@@ -1,5 +1,4 @@
 package cn.linstudy.controller;
-
 import cn.linstudy.annotation.RequiredPermission;
 import cn.linstudy.domain.Department;
 import cn.linstudy.domain.Employee;
@@ -8,12 +7,9 @@ import cn.linstudy.qo.DepartmentQueryObject;
 import cn.linstudy.qo.EmployeeQueryObject;
 import cn.linstudy.service.DepartmentService;
 import cn.linstudy.service.EmployeeService;
-
 import cn.linstudy.service.RoleService;
-import com.alibaba.druid.stat.TableStat.Mode;
 import com.github.pagehelper.PageInfo;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

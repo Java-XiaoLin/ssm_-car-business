@@ -121,6 +121,52 @@
     values (#{username}, #{name}, #{password}, #{email}, #{age}, #{admin}, #{deptId},
             #{status})
   </insert>
+  <insert id="register" parameterType="cn.linstudy.vo.EmployeeInsertVO">
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+
+      <if test="admin != null">
+        `admin`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+
+      <if test="admin != null">
+        #{admin},
+      </if>
+
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id"
     parameterType="cn.linstudy.domain.Employee" useGeneratedKeys="true">
     insert into employee
