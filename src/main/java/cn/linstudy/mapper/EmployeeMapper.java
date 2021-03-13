@@ -2,6 +2,7 @@ package cn.linstudy.mapper;
 
 import cn.linstudy.domain.Department;
 import cn.linstudy.domain.Employee;
+import cn.linstudy.domain.Permission;
 import cn.linstudy.domain.Role;
 import cn.linstudy.qo.DepartmentQueryObject;
 import cn.linstudy.qo.EmployeeQueryObject;
@@ -46,4 +47,6 @@ public interface EmployeeMapper {
     List<Role> selectRolesById(Long empId);
 
     void register(EmployeeInsertVO employeeVO);
+
+    List<Permission> getPermissionByEmployeeId(Long empId);
 }

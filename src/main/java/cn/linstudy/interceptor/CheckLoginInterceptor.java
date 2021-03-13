@@ -19,10 +19,12 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
     //请求是静态资源,handler对应的类 class org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler
     //请求是动态资源,handler对应的类class org.springframework.web.method.HandlerMethod
     // 如果是动态资源
+
     if (handler instanceof HandlerMethod){
       Employee employee = (Employee) request.getSession().getAttribute("EMPLOYEE_IN_SESSION");
       if (employee == null){
         response.sendRedirect("/login.html");
+        return false;
       }
     }
     return  true;

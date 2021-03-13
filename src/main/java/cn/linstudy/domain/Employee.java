@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
  * @Date 2021/3/8 13:55
  */
 
-@ApiModel(value = "cn-linstudy-domain-Employee")
+
+@ApiModel(value = "员工实体类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

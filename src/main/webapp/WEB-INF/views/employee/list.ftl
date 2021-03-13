@@ -44,6 +44,12 @@
                         &nbsp;&nbsp;<a href="/employee/tosaveOrUpdate" class="btn btn-success btn-input">
                             <span class="glyphicon glyphicon-plus"></span> 添加
                         </a>
+                        <a href="/employee/exportEmployeeExel" class="btn btn-warning" >
+                            <span class="glyphicon glyphicon-download"></span> 导出
+                        </a>
+                        <a  class="btn btn-warning btn-import">
+                            <span class="glyphicon glyphicon-upload"></span> 导入
+                        </a>
                     </form>
                 </div>
                 <div class="box-body table-responsive ">
@@ -91,7 +97,48 @@
             </div>
         </section>
     </div>
+
 <#--    <#i<#--    <#include "/common/footer.ftl">-->-->
+</div>
+
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">导入</h4>
+            </div>
+            <form class="form-horizontal" action="/employee/importEmployeeFromExel" enctype="multipart/form-data" method="post" id="importForm">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="name" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-6">
+                            <!-- 文件上传框 -->
+                            <input type="file" name="file">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <a href="/templates/exportTemplate.xls" class="btn btn-success" >
+                                <span class="glyphicon glyphicon-download"></span> 下载模板
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary btn-submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+<script>
+    $(".btn-import").click(function (){
+        $("#importModal").modal("show")
+    })
+
+</script>

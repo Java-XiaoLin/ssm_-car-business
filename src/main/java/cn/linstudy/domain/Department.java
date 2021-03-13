@@ -1,6 +1,7 @@
 package cn.linstudy.domain;
 
 import com.alibaba.fastjson.JSON;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.Setter;
  * @Date  2021/3/7 19:46
  */
 
+@ApiModel(value="部门实体类")
 @Getter
 @Setter
 @AllArgsConstructor

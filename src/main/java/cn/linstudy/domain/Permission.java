@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * @Date  2021/3/8 21:29
  */
 
-@ApiModel(value="cn-linstudy-domain-Permission")
+@ApiModel(value="权限实体类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

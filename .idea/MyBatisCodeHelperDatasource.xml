@@ -40,6 +40,18 @@
         <option name="noJdbcType" value="true" />
         <option name="tableGenerateConfigs">
           <map>
+            <entry key="ssm_carbusiness:business">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="Business" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="ssm_carbusiness:department">
               <value>
                 <TableGenerateConfig>
@@ -84,6 +96,28 @@
                   <option name="moduleName" value="SSM_CarBusiness" />
                   <option name="sequenceColumn" value="" />
                   <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="ssm_carbusiness:system_dictionary">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="SystemDictionary" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="ssm_carbusiness:system_dictionary_item">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="SystemDictionaryItem" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>

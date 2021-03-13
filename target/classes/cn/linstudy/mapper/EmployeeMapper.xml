@@ -75,11 +75,23 @@
     where username = #{username}
       and status = true
   </select>
-  <select id="selectAll" resultType="cn.linstudy.domain.Employee">
-    select
-    <include refid="Base_Column_List"/>
-    from employee
-    where status = true
+  <select id="selectAll" resultMap="BaseResultMap">
+    select e.id         e_id,
+           e.username   e_username,
+           e.`name`     e_name,
+           e.`password` e_password,
+           e.email      e_email,
+           e.age        e_age,
+           e.`admin`    e_admin,
+           e.dept_id,
+           e.`status`   e_status,
+           d.id         d_id,
+           d.`name`     d_name,
+           d.sn         d_sn,
+           d.status     d_status
+    from employee e
+           left join department d on d.id = e.dept_id
+    where e.status = true
   </select>
   <select id="selectRolesById" resultType="cn.linstudy.domain.Role">
     select r.id,r.NAME,r.sn
@@ -90,6 +102,19 @@
       on r.id = e_r.role_id
     where
       e.id = #{empId}
+  </select>
+  <select id="getPermissionByEmployeeId" resultType="Permission">
+    select p.name,p.id,p.expression
+    from permission p
+           join role_permission r_p
+      on r_p.permission_id = p.id
+           join role r
+      on r.id = r_p.role_id
+           join employee_role e_p
+      on e_p.role_id = r.id
+           join employee e
+      on e.id = e_p.employee_id
+    where e.id = #{empId}
   </select>
   <select id="selectForPage" resultMap="BaseResultMap">
     select e.id         e_id,

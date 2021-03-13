@@ -60,7 +60,7 @@
                 <ul class="treeview-menu">
                     <li name="systemDictionary"><a href="/systemDictionary/list"><i class="fa fa-circle-o"></i> 字典目录</a>
                     </li>
-                    <li name="systemDictionaryItem"><a href="/systemDictionaryItem/list"><i
+                    <li name="systemDictionaryItem"><a href="/systemDictionaryItem/list?typeId=1"><i
                             class="fa fa-circle-o"></i> 字典明细</a></li>
                 </ul>
             </li>

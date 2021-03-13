@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @Description
+ * @Description 注册控制器
  * @Author XiaoLin
  * @Date 2021/3/10 14:32
  */

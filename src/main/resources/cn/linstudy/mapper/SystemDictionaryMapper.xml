@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.SystemDictionaryMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.SystemDictionary">
+    <!--@Table system_dictionary-->
+    <id column="id" property="id" />
+    <result column="sn" property="sn" />
+    <result column="title" property="title" />
+    <result column="intro" property="intro" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sn, title, intro
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_dictionary
+    where id = #{id}
+  </select>
+  <select id="selectForPage" resultType="SystemDictionary">
+  select <include refid="Base_Column_List"/>
+  from system_dictionary
+</select>
+  <select id="selectAll" resultType="SystemDictionary">
+    select <include refid="Base_Column_List" />
+    from system_dictionary
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from system_dictionary
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.SystemDictionary" useGeneratedKeys="true">
+    insert into system_dictionary (sn, title, intro)
+    values (#{sn}, #{title}, #{intro})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.SystemDictionary" useGeneratedKeys="true">
+    insert into system_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sn != null">
+        sn,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sn != null">
+        #{sn},
+      </if>
+      <if test="title != null">
+        #{title},
+      </if>
+      <if test="intro != null">
+        #{intro},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.SystemDictionary">
+    update system_dictionary
+    <set>
+      <if test="sn != null">
+        sn = #{sn},
+      </if>
+      <if test="title != null">
+        title = #{title},
+      </if>
+      <if test="intro != null">
+        intro = #{intro},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.SystemDictionary">
+    update system_dictionary
+    set sn = #{sn},
+      title = #{title},
+      intro = #{intro}
+    where id = #{id}
+  </update>
+</mapper>

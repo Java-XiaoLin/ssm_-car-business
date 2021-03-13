@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @Description
+ * @Description 权限控制器
  * @Author XiaoLin
  * @Date 2021/3/8 21:31
  */

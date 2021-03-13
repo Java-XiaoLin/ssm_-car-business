@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * @Date  2021/3/9 9:05
  */
 
-@ApiModel(value="cn-linstudy-domain-Role")
+@ApiModel(value="角色实体类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

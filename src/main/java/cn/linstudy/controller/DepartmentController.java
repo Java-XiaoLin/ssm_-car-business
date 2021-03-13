@@ -1,16 +1,11 @@
 package cn.linstudy.controller;
-
 import cn.linstudy.annotation.RequiredPermission;
 import cn.linstudy.domain.Department;
-import cn.linstudy.domain.Employee;
 import cn.linstudy.qo.DepartmentQueryObject;
-import cn.linstudy.qo.QueryObject;
 import cn.linstudy.qo.response.ResponseResult;
 import cn.linstudy.service.DepartmentService;
 import cn.linstudy.service.EmployeeService;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @Description
+ * @Description 部门Controller
  * @Author XiaoLin
  * @Date 2021/3/7 19:54
  */

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.SystemDictionaryItemMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.SystemDictionaryItem">
+    <!--@Table system_dictionary_item-->
+    <id column="s_d_t_id" property="id"/>
+    <result column="s_d_t_title" property="title"/>
+    <result column="s_d_t_sequence" property="sequence"/>
+    <result column="s_d_t_type_id" property="typeId"/>
+    <result column="s_d_t_parent_id" property="parentId"/>
+    <association property="systemDictionary" javaType="cn.linstudy.domain.SystemDictionary">
+      <result property="id" column="s_d_id"/>
+      <result property="intro" column="s_d_intro"/>
+      <result property="sn" column="s_d_sn"/>
+      <result property="title" column="s_d_title"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    title,
+    `sequence`,
+    type_id,
+    parent_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from system_dictionary_item
+    where id = #{id}
+  </select>
+  <select id="selectForQuery" resultType="cn.linstudy.domain.SystemDictionaryItem">
+    select <include refid="Base_Column_List"/>
+    from system_dictionary_item
+    <where>
+    <if test="parentId != null">
+     and  parent_id = #{parentId}
+    </if>
+    <if test="typeId != null">
+      and type_id = #{typeId}
+    </if>
+</where>
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select
+	s_d.id s_d_id,
+	s_d.intro s_d_intro,
+	s_d.sn s_d_sn,
+	s_d.title s_d_title,
+	s_d_t.id s_d_t_id,
+	s_d_t.title s_d_t_title,
+	s_d_t.sequence s_d_t_sequence,
+	s_d_t.type_id s_d_t_type_id,
+	s_d_t.parent_id s_d_t_parent_id
+    from
+	  system_dictionary s_d
+	  left join system_dictionary_item s_d_t ON s_d.id = s_d_t.type_id
+	  where s_d_t.type_id = #{typeId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete
+    from system_dictionary_item
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.SystemDictionaryItem" useGeneratedKeys="true">
+    insert into system_dictionary_item (title, `sequence`, type_id, parent_id)
+    values (#{title}, #{sequence}, #{typeId}, #{parentId})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.SystemDictionaryItem" useGeneratedKeys="true">
+    insert into system_dictionary_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="sequence != null">
+        `sequence`,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title},
+      </if>
+      <if test="sequence != null">
+        #{sequence},
+      </if>
+      <if test="typeId != null">
+        #{typeId},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.SystemDictionaryItem">
+    update system_dictionary_item
+    <set>
+      <if test="title != null">
+        title = #{title},
+      </if>
+      <if test="sequence != null">
+        `sequence` = #{sequence},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.SystemDictionaryItem">
+    update system_dictionary_item
+    set title      = #{title},
+        `sequence` = #{sequence},
+        type_id    = #{typeId},
+        parent_id  = #{parentId}
+    where id = #{id}
+  </update>
+</mapper>
