@@ -23,6 +23,7 @@
 				$("#email").focus();
 			return;
 			}
+
 		if ($.trim(code) == "") {
 			Tip('激活码未填写！');
 			$("#Verification").focus();
@@ -64,21 +65,6 @@
 		       $("#txtPwd").focus();
 		      return;
 	            }
-
-			  // if($.trim(txtconfirm) == "") {
-        //
-	      //    	Tips('请再次输入密码！');
-		    //    $("#txtconfirm").focus();
-		    //   return;
-        //
-	      //       }
-			  // if( $.trim(txtconfirm) != $.trim(txtPwd) ) {
-        //
-	      //    	Tips('你输入的密码不匹配，请从新输入！');
-		    //    $("#txtconfirm").focus();
-		    //   return;
-        //
-	      //       }
 
       $.ajax({
         url:"/checkUsername",

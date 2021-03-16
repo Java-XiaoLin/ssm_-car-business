@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description 
+ * @Description 权限实体类
  * @Author  XiaoLin
  * @Date  2021/3/8 21:29
  */

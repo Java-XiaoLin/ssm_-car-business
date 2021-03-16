@@ -53,6 +53,13 @@ public class LoginController {
     VerifyCodeUtils.outputImage(125, 43, response.getOutputStream(), code);
   }
 
+  /**
+      * @Description:登出
+      * @author XiaoLin
+      * @date 2021/3/14
+      * @Param: [httpSession]
+      * @return java.lang.String
+      */
   @RequestMapping("logout")
   public String  logout(HttpSession httpSession){
     httpSession.invalidate();

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @Description 
+ * @Description 部门实体类
  * @Author  XiaoLin
  * @Date  2021/3/7 19:46
  */

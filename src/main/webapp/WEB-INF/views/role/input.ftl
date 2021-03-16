@@ -110,6 +110,7 @@
 
     // 选中移动
     function moveSelected(source,target){
+        // 将选中的进行移动
         $('.' + source +' > option:selected').appendTo($('.' + target))
     }
 

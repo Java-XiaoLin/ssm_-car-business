@@ -34,6 +34,13 @@ public interface EmployeeMapper {
 
     List<Employee> selectForPage(EmployeeQueryObject qo);
 
+        /**
+        * @Description:根据部门id查询员工
+        * @author XiaoLin
+        * @date 2021/3/13
+        * @Param: [id]
+        * @return int
+        */
     int listForDeptId(Long id);
 
     Employee selectByUsername(String username);
@@ -49,4 +56,13 @@ public interface EmployeeMapper {
     void register(EmployeeInsertVO employeeVO);
 
     List<Permission> getPermissionByEmployeeId(Long empId);
+
+    /**
+        * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
+        * @author XiaoLin
+        * @date 2021/3/14
+        * @Param: [email]
+        * @return cn.linstudy.domain.Employee
+        */
+    Employee selectForEmail(String email);
 }

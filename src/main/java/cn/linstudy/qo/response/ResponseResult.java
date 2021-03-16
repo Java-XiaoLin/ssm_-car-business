@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description
+ * @Description 返回JSON结果集的封装
  * @Author XiaoLin
  * @Date 2021/3/7 21:58
  */
 @Data
-
-
 public class ResponseResult {
 
   @ApiModelProperty(value = "是否成功")
@@ -33,5 +31,8 @@ public class ResponseResult {
     this.success = success;
     this.msg = msg;
     this.data = data;
+  }
+
+  public ResponseResult(boolean b) {
   }
 }

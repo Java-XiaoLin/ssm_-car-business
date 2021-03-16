@@ -7,9 +7,10 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * @Description 
+ * @Description 商户门店
  * @Author  XiaoLin
  * @Date  2021/3/12 15:36
  */
@@ -40,6 +41,7 @@ public class Business implements Serializable {
     @ApiModelProperty(value="门店地址")
     private String address;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value="经营日期")
     private Date openDate;
 

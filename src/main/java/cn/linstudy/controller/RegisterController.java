@@ -1,6 +1,7 @@
 package cn.linstudy.controller;
 
 import cn.linstudy.domain.Employee;
+import cn.linstudy.exception.CarBussinessException;
 import cn.linstudy.qo.response.ResponseResult;
 import cn.linstudy.service.EmployeeService;
 import cn.linstudy.utils.EmailUtils;
@@ -26,17 +27,22 @@ public class RegisterController {
   @RequestMapping("getEmailCode")
   @ResponseBody
   public ResponseResult getEmailCode(String email, HttpSession session){
-    String code = VerifyCodeUtils.generateVerifyCode(4);
-    session.setAttribute("EMAIL_CODE",code);
-    session.setAttribute("EMAIL_IN_SESSION",email);
-    try {
-      EmailUtils.sendEmail(email,code);
-      ResponseResult responseResult =  new ResponseResult(true,"发送邮件成功");
-      return  responseResult;
-    }catch (Exception e){
-      ResponseResult responseResult =  new ResponseResult(true,"发送邮件成功");
-      return  responseResult;
+    if (employeeService.selectForEmail(email)!= null){
+      return new ResponseResult(false,"邮箱以注册，请更换");
+    }else {
+      String code = VerifyCodeUtils.generateVerifyCode(4);
+      session.setAttribute("EMAIL_CODE",code);
+      session.setAttribute("EMAIL_IN_SESSION",email);
+      try {
+        EmailUtils.sendEmail(email,code);
+        ResponseResult responseResult =  new ResponseResult(true,"发送邮件成功");
+        return  responseResult;
+      }catch (Exception e){
+        ResponseResult responseResult =  new ResponseResult(true,"发送邮件成功");
+        return  responseResult;
+      }
     }
+
   }
 
   @RequestMapping("checkEmail")
@@ -63,5 +69,17 @@ public class RegisterController {
     }else {
       return new ResponseResult(false,"用户名已存在");
     }
+  }
+
+  @RequestMapping("checkEmailIsHave")
+  @ResponseBody
+  public ResponseResult checkEmail(String email){
+    Employee employee = employeeService.selectForEmail(email);
+    if (employee == null){
+      return new ResponseResult(false,"邮箱可以注册");
+    }else {
+      return new ResponseResult(false);
+    }
+
   }
 }

@@ -42,7 +42,7 @@ function cliLogin() {
 		data:{"username":txtUser,"password":txtPwd,"captcha":captcha},
 		success:function (result){
 			if (result.success){
-				window.location.href="/department/list"
+				window.location.href="/business/list"
 			}else {
 				Swal.fire({
 					icon: 'error',
@@ -89,9 +89,12 @@ function Sendpwd(sender) {
 
 						}
 					},1000);
-				}else {
-					alert(result.data);
 				}
+			} else {
+				Swal.fire({
+					icon: 'error',
+					text: result.msg,
+				})
 			}
 		}
 	})

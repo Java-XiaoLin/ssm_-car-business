@@ -1,5 +1,9 @@
 package cn.linstudy.service.impl;
 
+import cn.linstudy.qo.BusinessQueryObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +50,24 @@ public class BusinessServiceImpl implements BusinessService{
     @Override
     public int updateByPrimaryKey(Business record) {
         return businessMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public PageInfo<Business> selectForPage(BusinessQueryObject qo) {
+        PageHelper.startPage(qo.getCurrentPage(), qo.getPageSize());
+        return new PageInfo<Business>(businessMapper.selectForPage(qo));
+    }
+
+    /**
+        * @Description:查询所有公司
+        * @author XiaoLin
+        * @date 2021/3/14
+        * @Param: []
+        * @return java.util.List<cn.linstudy.domain.Business>
+        */
+    @Override
+    public List<Business> selectAll() {
+        return businessMapper.selectAll();
     }
 
 }

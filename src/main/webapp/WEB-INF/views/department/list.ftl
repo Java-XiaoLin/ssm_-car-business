@@ -153,24 +153,25 @@
                        })
 
     }
+    <!--在打开模态框之前进行数据的加载回显-->
     $(function (){
         $(".btn-input").click(function (){
+            // 拿到data-自定义属性挂载的值，用data("自定义属性")来进行取值
             let data = $(this).data("json");
+            // 如果取出来有值，就进行渲染数据
             if (data){
+                // 拿到name属性为sn的输入框，将value值进行赋值
                 $("input[name=sn]").val(data.sn);
+                // 拿到name属性为id的输入框，将value值进行赋值
                 $("input[name=id]").val(data.id);
+                // 拿到name属性为name的输入框，将value值进行赋值
                 $("input[name=name]").val(data.name);
             }else {
+                // 打开增加模态框的时候，先将里面的值清空
                 $("#addModal input").val("")
             }
             // 打开模态框
             $('#addModal').modal("show")
         })
-
-
     })
-
-
-
-
 </script>

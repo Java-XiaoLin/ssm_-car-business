@@ -41,6 +41,7 @@
                             $("#dept").val(${qo.dept_id})
                         </script>
                         &nbsp;&nbsp;<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                        <button type="reset" class="btn btn-primary" id="clear-btn"><span class="glyphicon glyphicon-record"></span> 重置</button>
                         &nbsp;&nbsp;<a href="/employee/tosaveOrUpdate" class="btn btn-success btn-input">
                             <span class="glyphicon glyphicon-plus"></span> 添加
                         </a>

@@ -21,6 +21,9 @@
             <mvc:exclude-mapping path="/checkEmail"/>
             <mvc:exclude-mapping path="/checkUsername"/>
             <mvc:exclude-mapping path="/error"/>
+          <mvc:exclude-mapping path="/checkEmailIsHave"/>
+          <mvc:exclude-mapping path="/exam/**"/>
+          <mvc:exclude-mapping path="/question/**"/>
             <bean class="cn.linstudy.interceptor.CheckLoginInterceptor"/>
 
         </mvc:interceptor>
@@ -32,6 +35,9 @@
           <mvc:exclude-mapping path="/checkEmail"/>
           <mvc:exclude-mapping path="/checkUsername"/>
           <mvc:exclude-mapping path="/error"/>
+          <mvc:exclude-mapping path="/checkEmailIsHave"/>
+          <mvc:exclude-mapping path="/exam/**"/>
+          <mvc:exclude-mapping path="/question/**"/>
           <bean class="cn.linstudy.interceptor.CheckPermissionInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

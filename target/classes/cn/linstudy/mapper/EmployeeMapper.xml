@@ -103,6 +103,10 @@
     where
       e.id = #{empId}
   </select>
+  <select id="selectForEmail" resultType="Employee">
+  select <include refid="Base_Column_List"/> from employee
+  where email = #{email}
+  </select>
   <select id="getPermissionByEmployeeId" resultType="Permission">
     select p.name,p.id,p.expression
     from permission p

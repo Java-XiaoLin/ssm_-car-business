@@ -32,4 +32,8 @@ public interface SystemDictionaryItemService{
     PageInfo<SystemDictionaryItem> selectForPage(SystemDictionaryItemQueryObject qo);
 
     List<SystemDictionaryItem> selectForQuery(SystemDictionaryItemQueryObject qo);
+
+    void save(SystemDictionaryItem systemDictionaryItem);
+
+    List<SystemDictionaryItem> selectAllByTypeId(Long typeId);
 }

@@ -30,4 +30,6 @@ public interface SystemDictionaryItemMapper {
     List<SystemDictionaryItem> selectForPage(SystemDictionaryItemQueryObject qo);
 
     List<SystemDictionaryItem> selectForQuery(SystemDictionaryItemQueryObject qo);
+
+    List<SystemDictionaryItem> selectAllByTypeId(Long typeId);
 }

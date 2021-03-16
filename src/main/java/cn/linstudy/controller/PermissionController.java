@@ -25,6 +25,13 @@ public class PermissionController {
   @Autowired
   PermissionService permissionService;
 
+  /**
+      * @Description:查询所有权限信息
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [qo, model]
+      * @return java.lang.String
+      */
   @RequestMapping("list")
   public String listAll(PermissionQueryObject qo, Model model){
     PageInfo<Permission> pageInfo = permissionService.selectForPage(qo);
@@ -32,6 +39,13 @@ public class PermissionController {
     return "permission/list";
   }
 
+  /**
+      * @Description:重新加载权限信息
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: []
+      * @return cn.linstudy.qo.response.ResponseResult
+      */
   @RequestMapping("reload")
   @ResponseBody
   public ResponseResult reload(){

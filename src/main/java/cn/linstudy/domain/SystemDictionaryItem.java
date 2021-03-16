@@ -9,12 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description 
+ * @Description 数组字典详细实体类
  * @Author  XiaoLin
  * @Date  2021/3/12 10:10
  */
 
-@ApiModel(value="数据实体类")
+@ApiModel(value="数组字典详细实体类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,4 +43,5 @@ public class SystemDictionaryItem implements Serializable {
     public String toString() {
         return JSON.toJSONString(this);
     }
+
 }

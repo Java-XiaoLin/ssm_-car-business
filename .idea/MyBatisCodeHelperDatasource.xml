@@ -7,9 +7,9 @@
         <option name="genComment" value="false" />
         <option name="generateService" value="true" />
         <option name="generateServiceInterface" value="true" />
-        <option name="javaMapperPackage" value="cn.linstudy.mapper" />
+        <option name="javaMapperPackage" value="cn.linstudy.mapper.exam" />
         <option name="javaMapperPath" value="$PROJECT_DIR$/src/main/java" />
-        <option name="javaModelPackage" value="cn.linstudy.domain" />
+        <option name="javaModelPackage" value="cn.linstudy.domain.exam" />
         <option name="javaModelPath" value="$PROJECT_DIR$/src/main/java" />
         <option name="lastDatabaseCrudChooseModuleName" value="SSM_CarBusiness" />
         <option name="lombokAllArgConstructor" value="true" />
@@ -22,15 +22,15 @@
             <entry key="SSM_CarBusiness">
               <value>
                 <UserPackageAndPathInfoByModule>
-                  <option name="javaMapperPackage" value="cn.linstudy.mapper" />
+                  <option name="javaMapperPackage" value="cn.linstudy.mapper.exam" />
                   <option name="javaMapperPath" value="$PROJECT_DIR$/src/main/java" />
-                  <option name="javaModelPacakge" value="cn.linstudy.domain" />
+                  <option name="javaModelPacakge" value="cn.linstudy.domain.exam" />
                   <option name="javaModelPath" value="$PROJECT_DIR$/src/main/java" />
-                  <option name="javaServiceInterfacePackage" value="cn.linstudy.service" />
+                  <option name="javaServiceInterfacePackage" value="cn.linstudy.service.exam" />
                   <option name="javaServiceInterfacePath" value="$PROJECT_DIR$/src/main/java" />
-                  <option name="javaServicePackage" value="cn.linstudy.service.impl" />
+                  <option name="javaServicePackage" value="cn.linstudy.service..exam.impl" />
                   <option name="javaServicePath" value="$PROJECT_DIR$/src/main/java" />
-                  <option name="xmlPackage" value="cn/linstudy/mapper" />
+                  <option name="xmlPackage" value="cn/linstudy/mapper.exam" />
                   <option name="xmlPath" value="$PROJECT_DIR$/src/main/resources" />
                 </UserPackageAndPathInfoByModule>
               </value>
@@ -40,6 +40,18 @@
         <option name="noJdbcType" value="true" />
         <option name="tableGenerateConfigs">
           <map>
+            <entry key="ssm_carbusiness:appointment">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="Appointment" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="ssm_carbusiness:business">
               <value>
                 <TableGenerateConfig>
@@ -76,11 +88,43 @@
                 </TableGenerateConfig>
               </value>
             </entry>
+            <entry key="ssm_carbusiness:exam">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="Exam" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="ssm_carbusiness:permission">
               <value>
                 <TableGenerateConfig>
                   <option name="generatedKey" value="id" />
                   <option name="javaModelName" value="Permission" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="ssm_carbusiness:question">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="Question" />
+                  <option name="moduleName" value="SSM_CarBusiness" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="ssm_carbusiness:question_item">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="QuestionItem" />
                   <option name="moduleName" value="SSM_CarBusiness" />
                   <option name="sequenceColumn" value="" />
                   <option name="sequenceId" value="" />
@@ -124,8 +168,7 @@
             </entry>
           </map>
         </option>
-        <option name="useSwagger" value="true" />
-        <option name="xmlMapperPackage" value="cn/linstudy/mapper" />
+        <option name="xmlMapperPackage" value="cn/linstudy/mapper.exam" />
         <option name="xmlMapperPath" value="$PROJECT_DIR$/src/main/resources" />
       </ProjectProfile>
     </option>

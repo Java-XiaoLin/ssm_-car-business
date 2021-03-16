@@ -34,6 +34,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-xs-10">
                         <!--高级查询--->
                         <form class="form-inline" id="searchForm" action="/systemDictionaryItem/list" method="post">
@@ -58,6 +59,7 @@
                                 <tbody>
                                 <#list pageInfo.list as systemDictionaryItem>
                                     <tr>
+
                                         <td>${systemDictionaryItem.id}</td>
                                         <td>
                                             <a href="/systemDictionaryItem/list?parentId=${systemDictionaryItem.id}">${systemDictionaryItem.title}</a>
@@ -102,7 +104,7 @@
                             <label for="name" class="col-sm-3 control-label">字典目录：</label>
                             <div class="col-sm-6">
                                 <select id="systemDictionarySelect" class="form-control" name="typeId"  >
-                                    <option value="" disabled="disabled" selected>请选择</option>
+                                    <option value="null" disabled="disabled" selected>请选择</option>
                                    <#list systemDictionaries as systemDictionarie>
                                      <option value="${systemDictionarie.id}">${systemDictionarie.title}</option>
                                    </#list>
@@ -112,7 +114,7 @@
                         <div class="form-group" style="margin-top: 10px;">
                             <label   class="col-sm-3 control-label">上级明细：</label>
                             <div class="col-sm-6">
-                                <select id="parent" class="form-control" name="parent.id" >
+                                <select id="parent" class="form-control" name="parentId" >
                                 </select>
                             </div>
                         </div>
@@ -183,10 +185,10 @@
 
         $("#systemDictionarySelect").change(function (){
             let str = '<option value="">无</option>';
-            let parentId = $(this).val();
+            let typeId = $(this).val();
             $.ajax({
                 url:"/systemDictionaryItem/selectItemByParentId",
-                data:{"parentId":parentId},
+                data:{"typeId":typeId},
                 success:function (result){
                     $.each(result.data,function (index,ele) {
                         str += '<option value="'+ele.id+'">'+ele.title+'</option>'

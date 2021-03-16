@@ -92,32 +92,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     return new PageInfo<Employee>(employees);
   }
 
-  @Override
-  public int listForDeptId(Long id) {
-    return employeeMapper.listForDeptId(id);
-  }
+    /**
+        * @Description:根据id查询员工
+        * @author XiaoLin
+        * @date 2021/3/13
+        * @Param: [id]
+        * @return int
+        */
+    @Override
+    public int listForDeptId(Long id) {
+      return employeeMapper.listForDeptId(id);
+    }
 
-//  @Override
-//  public ResponseResult login(String username, String password,String captcha,String code_in_session) {
-//    if (!captcha.equalsIgnoreCase(code_in_session)){
-//      return  new ResponseResult(false, "验证码错误");
-//    }else {
-//      if (StringUtils.isEmpty(username)) {
-//        return new ResponseResult(false, "用户名不可以为空");
-//      }
-//      if (StringUtils.isEmpty(password)) {
-//        return new ResponseResult(false, "密码不可以为空");
-//      }
-//      Employee employee = employeeMapper.selectByUsername(username);
-//      if (employee == null) {
-//        return new ResponseResult(false, "用户名错误");
-//      }
-//      if (!employee.getPassword().equals(password)) {
-//        return new ResponseResult(false, "密码错误");
-//      }
-//      return new ResponseResult(true, "登录成功",employee);
-//    }
-//  }
 
   @Override
   public Employee login(String username, String password,String captcha,String code_in_session) {
@@ -234,6 +220,18 @@ public class EmployeeServiceImpl implements EmployeeService {
       employeeMapper.insertSelective(employee);
     }
 
+  }
+
+  /**
+      * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
+      * @author XiaoLin
+      * @date 2021/3/14
+      * @Param: [email]
+      * @return cn.linstudy.domain.Employee
+      */
+  @Override
+  public Employee selectForEmail(String email) {
+    return employeeMapper.selectForEmail(email);
   }
 
 

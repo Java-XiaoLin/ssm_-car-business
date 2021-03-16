@@ -37,6 +37,13 @@ public interface EmployeeService{
     PageInfo<Employee>  selectForPage(EmployeeQueryObject qo);
 
 
+    /**
+        * @Description:根据部门id查询员工
+        * @author XiaoLin
+        * @date 2021/3/13
+        * @Param: [id]
+        * @return int
+        */
     int listForDeptId(Long id);
 
     Employee login(String username, String password,String captcha,String code_in_session);
@@ -54,4 +61,13 @@ public interface EmployeeService{
     void  exportEmployeeExel(ServletOutputStream outputStream) throws IOException;
 
     void importEmployeeFromExel(MultipartFile file) throws IOException;
+    
+    /**
+        * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
+        * @author XiaoLin
+        * @date 2021/3/14
+        * @Param: [email]
+        * @return cn.linstudy.domain.Employee
+        */
+    Employee selectForEmail(String email);
 }

@@ -35,8 +35,9 @@ public class SystemDictionaryItemController {
     // 查询详细
     PageInfo<SystemDictionaryItem> systemDictionaryItems = systemDictionaryItemService
         .selectForPage(qo);
-    // 查询字典的目录1
+    // 查询字典的目录
    List<SystemDictionary> systemDictionaries = systemDictionaryService.selectAll();
+   systemDictionaryItemService.selectForQuery(qo);
     model.addAttribute("pageInfo",systemDictionaryItems);
     model.addAttribute("systemDictionaries",systemDictionaries);
     return "systemDictionaryItem/list";
@@ -53,4 +54,19 @@ public class SystemDictionaryItemController {
     List<SystemDictionaryItem> systemDictionaryItems = systemDictionaryItemService.selectForQuery(qo);
       return new ResponseResult(true,"查询成功",systemDictionaryItems);
   }
+
+  @RequestMapping("save")
+  public String save(SystemDictionaryItem systemDictionaryItem){
+    systemDictionaryItemService.save(systemDictionaryItem);
+    return "redirect:/systemDictionaryItem/list?typeId=1";
+  }
+
+  @RequestMapping("listForParentId")
+  public String listForParentId(SystemDictionaryItemQueryObject qo,Model model){
+    List<SystemDictionaryItem> systemDictionaryItems = systemDictionaryItemService
+        .selectForQuery(qo);
+    model.addAttribute("pageInfo",systemDictionaryItems);
+    return "systemDictionaryItem/list";
+  }
+
 }

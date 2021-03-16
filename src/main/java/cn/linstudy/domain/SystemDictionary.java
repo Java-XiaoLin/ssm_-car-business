@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description 
+ * @Description 数据字典目录实体类
  * @Author  XiaoLin
  * @Date  2021/3/12 10:10
  */

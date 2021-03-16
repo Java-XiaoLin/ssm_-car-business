@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.AppointmentMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Appointment">
+    <!--@Table appointment-->
+    <id column="id" property="id" />
+    <result column="ano" property="ano" />
+    <result column="status" property="status" />
+    <result column="category_id" property="categoryId" />
+    <result column="info" property="info" />
+    <result column="contact_tel" property="contactTel" />
+    <result column="contact_name" property="contactName" />
+    <result column="business_id" property="businessId" />
+    <result column="create_time" property="createTime" />
+    <result column="appointment_time" property="appointmentTime" />
+    <association property="business" javaType="cn.linstudy.domain.Business">
+        <id column="b_id" property="id" />
+        <result column="b_name" property="name" />
+    </association>
+   <association property="category" javaType="cn.linstudy.domain.SystemDictionaryItem">
+        <id column="s_id" property="id"/>
+        <result column="s_title" property="title"/>
+   </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ano, `status`, category_id, info, contact_tel, contact_name, business_id, create_time,
+    appointment_time
+  </sql>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select a.*,s.title s_title,b.`name` b_name,b.id b_id,s.id s_id
+    from appointment a
+    left join  system_dictionary_item s
+    on a.category_id = s.id
+    left join business b
+    on a.business_id = b.id
+    <where>
+        <if test="ano != null and ano != ''">
+          and a.ano like concat('%',#{ano},'%')
+        </if>
+        <if test="categoryId != null">
+          and s.id = #{categoryId}
+        </if>
+        <if test="status != null">
+          and a.status = #{status}
+        </if>
+        <if test="businessId != null">
+           and a.business_id = #{businessId}
+        </if>
+        <if test="contactName != null and contactName != ''">
+           and a.contact_name like concat('%',#{contactName},'%')
+        </if>
+        <if test="contactTel != null and contactTel != ''">
+           and a.contact_tel like  concat('%',#{contactTel},'%')
+        </if>
+        <if test="startTime != null">
+           and a.appointment_time >= #{startTime}
+        </if>
+        <if test="endTime != null">
+           and a.appointment_time &lt;= #{endTime}
+        </if>
+    </where>
+    order by a.status , a.appointment_time desc
+    
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from appointment
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from appointment
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Appointment" useGeneratedKeys="true">
+    insert into appointment (ano, `status`, category_id, info, contact_tel, contact_name,
+      business_id, create_time, appointment_time)
+    values (#{ano}, #{status}, #{categoryId}, #{info}, #{contactTel}, #{contactName},
+      #{businessId}, #{createTime}, #{appointmentTime})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Appointment" useGeneratedKeys="true">
+    insert into appointment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ano != null">
+        ano,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="contactTel != null">
+        contact_tel,
+      </if>
+      <if test="contactName != null">
+        contact_name,
+      </if>
+      <if test="businessId != null">
+        business_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="appointmentTime != null">
+        appointment_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ano != null">
+        #{ano},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId},
+      </if>
+      <if test="info != null">
+        #{info},
+      </if>
+      <if test="contactTel != null">
+        #{contactTel},
+      </if>
+      <if test="contactName != null">
+        #{contactName},
+      </if>
+      <if test="businessId != null">
+        #{businessId},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="appointmentTime != null">
+        #{appointmentTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Appointment">
+    update appointment
+    <set>
+      <if test="ano != null">
+        ano = #{ano},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId},
+      </if>
+      <if test="info != null">
+        info = #{info},
+      </if>
+      <if test="contactTel != null">
+        contact_tel = #{contactTel},
+      </if>
+      <if test="contactName != null">
+        contact_name = #{contactName},
+      </if>
+      <if test="businessId != null">
+        business_id = #{businessId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="appointmentTime != null">
+        appointment_time = #{appointmentTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Appointment">
+    update appointment
+    set ano = #{ano},
+      `status` = #{status},
+      category_id = #{categoryId},
+      info = #{info},
+      contact_tel = #{contactTel},
+      contact_name = #{contactName},
+      business_id = #{businessId},
+      create_time = #{createTime},
+      appointment_time = #{appointmentTime}
+    where id = #{id}
+  </update>
+  <update id="updateStatus" >
+    update  appointment set status = #{status} where id = #{appointmentId}
+  </update>
+</mapper>

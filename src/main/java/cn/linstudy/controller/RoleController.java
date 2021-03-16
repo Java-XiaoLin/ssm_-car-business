@@ -33,10 +33,20 @@ public class RoleController {
   @Autowired
   DepartmentService departmentService;
 
+  /**
+      * @Description:查询所有角色信息
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [qo, model]
+      * @return java.lang.String
+      */
   @RequestMapping("list")
   public String listForPage( RoleQueryObject qo,Model model){
+    // 查询出所有的权限表达式，在前台显示增加或者修改
     List<Permission> permissions = permissionService.selectAll();
+    // 查询出所有的角色信息（分页）
     PageInfo<Role> pageInfo = roleService.selectForPage(qo);
+    // 查询出所有的角色信息（不分页）
     List<Role> roles = roleService.selectAll();
     model.addAttribute("permissions",permissions);
     model.addAttribute("roles",roles);
@@ -44,12 +54,19 @@ public class RoleController {
     return "role/list";
   }
 
+  /**
+      * @Description:增加角色信息
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [id, model]
+      * @return java.lang.String
+      */
   @RequestMapping("input")
   public String input(Long id,Model model){
+    // 查询出所有的权限表达式信息
     List<Permission> permissions = permissionService.selectAll();
     model.addAttribute("permissions",permissions);
-    List<Department> departments = departmentService.selectAll();
-    model.addAttribute("departments",departments);
+    // rg1
     if (id == null){
       return "role/input";
     }

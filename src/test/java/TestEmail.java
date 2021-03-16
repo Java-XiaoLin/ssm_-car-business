@@ -1,4 +1,7 @@
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.linstudy.utils.EmailUtils;
+import java.util.Date;
 import org.junit.Test;
 
 /**
@@ -9,10 +12,11 @@ import org.junit.Test;
 public class TestEmail {
 
   /**
-   * 用于测试邮箱
-   */
+  * 用于测试
+  */
   @Test
   public void test(){
-    EmailUtils.sendEmail("ljp2020vip@163.com","123456");
+    System.out.println();
+    System.out.println(DateUtil.format(new Date(),"yyyyMMdd") +RandomUtil.randomNumbers(5));
   }
 }

@@ -1,6 +1,8 @@
 package cn.linstudy.mapper;
 
 import cn.linstudy.domain.Business;
+import cn.linstudy.qo.BusinessQueryObject;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -22,4 +24,8 @@ public interface BusinessMapper {
     int updateByPrimaryKeySelective(Business record);
 
     int updateByPrimaryKey(Business record);
+
+    List<Business> selectForPage(BusinessQueryObject qo);
+
+    List<Business> selectAll();
 }

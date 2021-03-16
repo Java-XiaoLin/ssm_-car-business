@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description
+ * @Description 员工实体类
  * @Author XiaoLin
  * @Date 2021/3/8 13:55
  */

@@ -28,8 +28,22 @@ public interface PermissionService{
 
     PageInfo<Permission> selectForPage(PermissionQueryObject qo);
 
+    /**
+        * @Description:重新加载权限
+        * @author XiaoLin
+        * @date 2021/3/13
+        * @Param: []
+        * @return void
+        */
     void reload();
 
+    /**
+        * @Description:查询所有权限信息
+        * @author XiaoLin
+        * @date 2021/3/13
+        * @Param: []
+        * @return java.util.List<cn.linstudy.domain.Permission>
+        */
     List<Permission> selectAll();
 
     List<Permission> selectPermissionByRoleId(Long roleId);

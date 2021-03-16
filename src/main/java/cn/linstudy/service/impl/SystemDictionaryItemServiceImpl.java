@@ -61,5 +61,20 @@ public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemServ
         return systemDictionaryItemMapper.selectForQuery(qo);
     }
 
+    @Override
+    public void save(SystemDictionaryItem systemDictionaryItem) {
+        // 判断是否添加的是一级目录，如果parentId不为空，说明不是一级目录
+        if (systemDictionaryItem.getParentId() != null){
+            // 如果加的不是一级目录，那么把把typeid去除
+            systemDictionaryItem.setTypeId(null);
+        }
+        systemDictionaryItemMapper.insertSelective(systemDictionaryItem);
+    }
+
+    @Override
+    public List<SystemDictionaryItem> selectAllByTypeId(Long typeId) {
+        return systemDictionaryItemMapper.selectAllByTypeId(typeId);
+    }
+
 
 }

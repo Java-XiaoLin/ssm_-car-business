@@ -27,14 +27,31 @@ public class DepartmentController {
   @Autowired
   EmployeeService employeeService;
 
+  /**
+      * @Description: 查询所有部门
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [qo, model]
+      * @return java.lang.String
+      */
   @RequiredPermission(name = "查询所有部门",expression = "/department/list")
   @RequestMapping("/list")
   public String selectForPage(DepartmentQueryObject qo, Model model){
+    // 拿到DepartmentService返回的PageInfo对象
     PageInfo<Department> pageInfo = departmentService.selectForPage(qo);
+    // 放到Model中，方便前端展示
     model.addAttribute("pageInfo",pageInfo);
+    // 返回前端界面
     return "department/list";
   }
 
+  /**
+      * @Description:增加部门
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [department]
+      * @return java.lang.String
+      */
   @RequiredPermission(name = "增加部门",expression = "/department/save")
   @RequestMapping("/save")
   @ResponseBody
@@ -44,13 +61,23 @@ public class DepartmentController {
   }
 
 
-  @RequiredPermission(name = "跳转到增加或者回显部门",expression = "/department/saveOrUpdate")
+  /**
+      * @Description:增加或者修改部门
+      * @author XiaoLin
+      * @date 2021/3/13
+      * @Param: [id, department]
+      * @return java.lang.String
+      */
+  @RequiredPermission(name = "增加或者修改部门",expression = "/department/saveOrUpdate")
   @RequestMapping("saveOrUpdate")
   public String saveOrUpdate(Long id,Department department){
+    // 如果id为空，说明是新增
     if(id == null){
+      // 调用新增方法
       departmentService.insertSelective(department);
       return "redirect:/department/list";
     }else {
+      // 否则id不为空就是修改
       departmentService.updateByPrimaryKeySelective(department);
       return "redirect:/department/list";
     }
