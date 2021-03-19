@@ -30,4 +30,6 @@ public interface AppointmentMapper {
     List<Appointment> selectForPage(AppointmentQueryObject qo);
 
     void updateStatus(@Param("appointmentId") Long appointmentId, @Param("status") Integer status);
+
+    Appointment selectByAno(String ano);
 }

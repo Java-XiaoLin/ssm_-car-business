@@ -59,7 +59,7 @@
            and a.appointment_time &lt;= #{endTime}
         </if>
     </where>
-    order by a.status , a.appointment_time desc
+    order by a.status
     
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -67,6 +67,13 @@
     <include refid="Base_Column_List" />
     from appointment
     where id = #{id}
+  </select>
+  <select id="selectByAno" resultMap="BaseResultMap">
+    select a.id , ano, status, category_id, info, contact_tel, contact_name, business_id b_id,
+             create_time, appointment_time,b.name b_name,b.id b_id
+      from appointment a
+      left join business b on a.business_id = b.id
+      where ano = #{ano}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from appointment

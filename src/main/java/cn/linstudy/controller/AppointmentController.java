@@ -63,7 +63,7 @@ public class AppointmentController {
   }
 
   /**
-      * @Description:增加或者修改部门
+      * @Description:增加或者修改
       * @author XiaoLin
       * @date 2021/3/15
       * @Param: [appointment, model]
@@ -90,10 +90,11 @@ public class AppointmentController {
       * @return cn.linstudy.qo.response.ResponseResult
       */
   @RequestMapping("updateStatus")
-  @ResponseBody
-  public ResponseResult updateStatus(Long appointmentId,Integer status){
-    appointmentService.updateStatus(appointmentId,status);
-    return new ResponseResult(true,"修改状态为履行中成功");
+  public String updateStatus(String appointmentId,Integer status){
+    appointmentService.updateStatus(Long.valueOf(appointmentId),status);
+    return "redirect:/appointment/list";
   }
+
+
 
 }

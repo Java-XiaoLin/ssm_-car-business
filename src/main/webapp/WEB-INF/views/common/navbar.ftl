@@ -1,7 +1,7 @@
 <header class="main-header">
     <a href="../../index2.html" class="logo" style="background-color: #222d32;color: #fff;border-right: none;border-bottom: 1px solid grey;">
         <span class="logo-mini">wolf</span>
-        <span class="logo-lg"><b>狼途汽车门店管理平台</b></span>
+        <span class="logo-lg"><b>汽车门店管理平台</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" >

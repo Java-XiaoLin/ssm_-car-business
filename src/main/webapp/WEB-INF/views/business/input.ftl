@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="../../../static/css/simplelightbox.min.css">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>门店管理</title>
     <#include "/common/link.ftl">
+    <script src="../../../static/js/simple-lightbox.min.js"></script>
 
 </head>
 <body class="hold-transition skin-black sidebar-mini">
@@ -73,7 +75,7 @@
                             <div class="form-group">
                                 <label>上传营业执照：</label>
                                 <#if business.licenseImg != null>
-                                    <a class="btn" target="_blank" href="${business.licenseImg}">
+                                    <a class="btn" target="_blank" id="licenseImg" href="${business.licenseImg}">
                                         <i class="fa fa-user"></i> 查看附件
                                     </a>
                                 </#if>
@@ -117,3 +119,8 @@
 </div>
 </body>
 </html>
+<script>
+    $(function (){
+        $("#licenseImg").simpleLightbox();
+    })
+</script>

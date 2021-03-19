@@ -47,22 +47,22 @@
     order by sequence
   </select>
   <select id="selectForPage" resultMap="BaseResultMap">
-<!--    select-->
-<!--	s_d.id s_d_id,-->
-<!--	s_d.intro s_d_intro,-->
-<!--	s_d.sn s_d_sn,-->
-<!--	s_d.title s_d_title,-->
-<!--	s_d_t.id s_d_t_id,-->
-<!--	s_d_t.title s_d_t_title,-->
-<!--	s_d_t.sequence s_d_t_sequence,-->
-<!--	s_d_t.type_id s_d_t_type_id,-->
-<!--	s_d_t.parent_id s_d_t_parent_id-->
-<!--    from-->
-<!--	  system_dictionary s_d-->
-<!--	  left join system_dictionary_item s_d_t-->
-<!--	  ON  s_d.id = s_d_t.type_id-->
+    select
+	s_d.id s_d_id,
+	s_d.intro s_d_intro,
+	s_d.sn s_d_sn,
+	s_d.title s_d_title,
+	s_d_t.id s_d_t_id,
+	s_d_t.title s_d_t_title,
+	s_d_t.sequence s_d_t_sequence,
+	s_d_t.type_id s_d_t_type_id,
+	s_d_t.parent_id s_d_t_parent_id
+    from
+	  system_dictionary s_d
+	  left join system_dictionary_item s_d_t
+	  ON  s_d.id = s_d_t.type_id
 
-<!--	  where s_d_t.type_id = #{typeId}-->
+	  where s_d_t.type_id = #{typeId}
 SELECT
 	A.*,
 	B.title AS parent_title,

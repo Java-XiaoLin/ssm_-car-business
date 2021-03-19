@@ -6,7 +6,7 @@
                 <img src="../../../static/js/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>admin</p>
+                <p>${EMPLOYEE_IN_SESSION.username}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i>在线</a>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     <li name="business"><a href="/business/list"><i class="fa fa-circle-o"></i>门店信息</a></li>
                     <li name="appointment"><a href="/appointment/list"><i class="fa fa-circle-o"></i>业务预约</a></li>
                     <li name="consumption"><a href="/consumption/list"><i class="fa fa-circle-o"></i>结算单</a></li>
-                    <li name="consumptionItem"><a href="/consumptionItem/list"><i class="fa fa-circle-o"></i>结算单明细</a></li>
+<#--                    <li name="consumptionItem"><a href="/consumptionItem/list"><i class="fa fa-circle-o"></i>结算单明细</a></li>-->
                 </ul>
             </li>
             <li class="treeview">
@@ -108,7 +108,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li name="customerReport"><a href="/customerReport/list"><i class="fa fa-circle-o"></i>潜在客户报表</a>
+                    <li name="customerReport"><a href="/consumptionReport/list"><i class="fa fa-circle-o"></i>门店数据报表</a>
                     </li>
                 </ul>
             </li>

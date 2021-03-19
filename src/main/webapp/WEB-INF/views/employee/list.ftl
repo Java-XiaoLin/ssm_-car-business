@@ -99,7 +99,6 @@
         </section>
     </div>
 
-<#--    <#i<#--    <#include "/common/footer.ftl">-->-->
 </div>
 
 <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

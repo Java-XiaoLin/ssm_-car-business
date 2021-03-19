@@ -143,7 +143,6 @@
             </div>
         </section>
     </div>
-<#--    <#i<#--    <#include "/common/footer.ftl">-->-->
 </div>
 </body>
 </html>

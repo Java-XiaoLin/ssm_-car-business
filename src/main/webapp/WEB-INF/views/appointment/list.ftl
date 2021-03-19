@@ -129,8 +129,8 @@
                                     <span class="glyphicon glyphicon-phone-alt"></span> 确认预约</a>
                                 <a class="btn btn-xs btn-danger btn-remove" data-id="${appointment.id}">
                                     <span class="glyphicon glyphicon-remove"></span> 取消预约</a>
-                                <a href="#" class="btn btn-success btn-xs btn-consume" >
-                                    <span class="glyphicon glyphicon-shopping-cart"></span> 确认到店
+                                <a class="btn btn-success btn-xs btn-consume" data-name="${appointment.contactName}" data-id="${appointment.id}" data-ano="${appointment.ano}">
+                                    <span class="glyphicon glyphicon-shopping-cart" ></span> 确认到店
                                 </a>
                             </td>
                         </tr>
@@ -144,7 +144,6 @@
             </div>
         </section>
     </div>
-<#--    <#include "/common/footer.ftl">-->
 </div>
 
 
@@ -226,6 +225,7 @@
 <script>
     $(function (){
         $(".btn-input").click(function (){
+
             let data = $(this).data("json");
             if (data){
                 $("select[name=businessId]").val(data.businessId);
@@ -245,8 +245,9 @@
         })
 
         $(".btn-status").click(function (){
+            let appointmentId = $(this).data("id");
             Swal.fire({
-                title: '你确定要确认预约吗吗',
+                title: '你确定要确认预约吗',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -255,24 +256,14 @@
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.value) {
-                    let appointmentId = $(this).data("id");
-                    $.ajax({
-                        data:{"appointmentId":appointmentId},
-                        url:"/appointment/updateStatus?status=1",
-                        success:function (result){
-                            if (result.success == true){
-                                window.location.reload();
-                            }else {
-                                alert(result.msg)
-                            }
-                        }
-                    })
+                    window.location.href="/appointment/updateStatus?appointmentId="+appointmentId+"&status=1";
                 }
             })
 
         })
 
         $(".btn-remove").click(function (){
+            let appointmentId = $(this).data("id");
             Swal.fire({
                 title: '你确定要取消预约吗',
                 icon: 'warning',
@@ -283,25 +274,16 @@
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.value) {
-                    let appointmentId = $(this).data("id");
-                    $.ajax({
-                        data:{"appointmentId":appointmentId},
-                        url:"/appointment/updateStatus?status=4",
-                        success:function (result){
-                            if (result.success == true){
-                                window.location.reload();
-                            }else {
-                                alert(result.msg)
-                            }
-                        }
-                    })
+                    window.location.href="/appointment/updateStatus?appointmentId="+appointmentId+"&status=4";
                 }
             })
         })
 
         $(".btn-consume").click(function (){
+            let appointmentId = $(this).data("id");
+            let name = $(this).data("name");
             Swal.fire({
-                title: '你确定到店了吗',
+                title: '你确定'+name+'到店了吗',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -310,16 +292,23 @@
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.value) {
-                    let appointmentId = $(this).data("id");
-                    $.ajax({
-                        data:{"appointmentId":appointmentId},
-                        url:"/appointment/updateStatus?status=2",
-                        success:function (result){
-                            if (result.success == true){
-                                window.location.reload();
-                            }else {
-                                alert(result.msg)
-                            }
+                    Swal.fire({
+                        title: name+'有消费吗',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '有消费',
+                        cancelButtonText: '无消费'
+                    }).then((result) =>{
+                        // 如果是有消费就将状态改为消费中,同时生成结算单
+                        if (result.value){
+                            // 拿到预约单的流水号
+                            let ano = $(this).data("ano");
+                           window.location.href="/consumption/createConsumption?appointmentId="+appointmentId+"&status=2&ano="+ano;
+                        }if (result.dismiss == 'cancel') {
+                            // 如果没有消费就直接转为归档
+                            window.location.href="/appointment/updateStatus?appointmentId="+appointmentId+"&status=3";
                         }
                     })
                 }
