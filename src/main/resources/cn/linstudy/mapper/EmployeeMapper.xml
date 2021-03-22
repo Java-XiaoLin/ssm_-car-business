@@ -19,6 +19,9 @@
       <result property="name" column="d_name"/>
       <result property="id" column="d_id"/>
     </association>
+   <collection property="notices" ofType="cn.linstudy.domain.NoticeEmployee">
+
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id,
@@ -102,6 +105,9 @@
       on r.id = e_r.role_id
     where
       e.id = #{empId}
+  </select>
+  <select id="selectAllEmployee" resultType="Employee">
+    select <include refid="Base_Column_List" /> from employee
   </select>
   <select id="selectForEmail" resultType="Employee">
   select <include refid="Base_Column_List"/> from employee

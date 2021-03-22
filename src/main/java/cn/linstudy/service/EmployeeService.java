@@ -70,4 +70,13 @@ public interface EmployeeService{
         * @return cn.linstudy.domain.Employee
         */
     Employee selectForEmail(String email);
+
+    /**
+        * @Description:查询所有员工
+        * @author XiaoLin
+        * @date 2021/3/20
+        * @Param: []
+        * @return java.util.List<cn.linstudy.domain.Employee>
+        */
+    List<Employee> selectAllEmployee();
 }

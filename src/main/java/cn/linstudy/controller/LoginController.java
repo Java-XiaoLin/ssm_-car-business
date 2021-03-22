@@ -1,10 +1,12 @@
 package cn.linstudy.controller;
 
 import cn.linstudy.domain.Employee;
+import cn.linstudy.domain.Notice;
 import cn.linstudy.domain.Permission;
 import cn.linstudy.qo.response.ResponseResult;
 import cn.linstudy.service.EmployeeService;
 
+import cn.linstudy.service.NoticeService;
 import cn.linstudy.utils.VerifyCodeUtils;
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,11 +29,17 @@ public class LoginController {
   @Autowired
   EmployeeService employeeService;
 
+  @Autowired
+  NoticeService noticeService;
+
+
   @RequestMapping("empLogin")
   @ResponseBody
-  public ResponseResult login(HttpSession session,String username,String password,String captcha){
+  public ResponseResult login(HttpSession session,String username,String password,String captcha,HttpSession httpSession){
     Employee employee = employeeService.login(username, password,captcha,session.getAttribute("CODE_IN_SESSION").toString());
     List<Permission> permissionByEmployeeId = employeeService.getPermissionByEmployeeId(employee.getId());
+//    Employee employee_in_session = (Employee)httpSession.getAttribute("EMPLOYEE_IN_SESSION");
+
     session.setAttribute("permissionByEmployeeId",permissionByEmployeeId);
     session.setAttribute("EMPLOYEE_IN_SESSION",employee);
     return new ResponseResult(true,"登录成功",employee);

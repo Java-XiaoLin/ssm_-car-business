@@ -234,5 +234,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employeeMapper.selectForEmail(email);
   }
 
+  @Override
+  public List<Employee> selectAllEmployee() {
+    return employeeMapper.selectAllEmployee();
+  }
+
 
 }

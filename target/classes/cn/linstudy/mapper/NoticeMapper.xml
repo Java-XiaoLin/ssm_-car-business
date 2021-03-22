@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Notice">
+    <!--@Table notice-->
+    <id column="id" property="id" />
+    <result column="title" property="title" />
+    <result column="create_time" property="createTime" />
+    <result column="level" property="level" />
+    <result column="status" property="status" />
+    <result column="deleted" property="deleted" />
+    <result column="content" property="content" />
+    <association property="createPeople" javaType="cn.linstudy.domain.Employee">
+      <id column="create_id" property="id"/>
+      <result column="create_name" property="name"/>
+    </association>
+    <association property="notices" javaType="cn.linstudy.domain.NoticeEmployee">
+      <result column="read" property="read"/>
+      <association property="employeeId" javaType="cn.linstudy.domain.Employee">
+        <result column="read_id" property="id"/>
+        <result column="read_name" property="name"/>
+      </association>
+      <association property="noticeId" javaType="cn.linstudy.domain.Notice">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+      </association>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, create_people, create_time, `level`, `status`, deleted,content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+     n.* ,e.id create_id,e.name create_name
+    from notice n
+    left join employee e on e.id = n.create_people
+    where n.id = #{id}
+  </select>
+  <select id="checkClick" resultType="cn.linstudy.domain.NoticeEmployee">
+     select * from notice_employee
+     where employee_id = #{employeeId} and notice_id = #{noticeId} and `read` = true
+  </select>
+  <select id="unReadNumber" resultType="int">
+      select 	count(*) from notice n
+      left join notice_employee ne on(n.id=ne.notice_id and ne.employee_id = #{LoginEmployeeId})
+      left join employee e1 on e1.id = n.create_people
+      left join employee e2 on ne.employee_id = e2.id
+      where `read` is null
+  </select>
+  <select id="unReadNotice" resultMap="BaseResultMap">
+    select
+        n.*,
+        ne.employee_id read_id,e2.name read_name,ne.read,
+        e1.name create_name,e1.id create_id
+      from notice n
+      left join notice_employee ne on(n.id=ne.notice_id and ne.employee_id = #{employeeId})
+      left join employee e1 on e1.id = n.create_people
+      left join employee e2 on ne.employee_id = e2.id
+       where `read` is null
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+				select
+        n.*,
+        ne.employee_id read_id,e2.name read_name,ne.read,
+        e1.name create_name,e1.id create_id
+      from notice n
+      left join notice_employee ne on(n.id=ne.notice_id and ne.employee_id = #{LoginEmployeeId})
+      left join employee e1 on e1.id = n.create_people
+      left join employee e2 on ne.employee_id = e2.id
+			<where>
+			  <if test="qo.read != null">
+			      and `read` = #{qo.read}
+        </if>
+			  <if test="qo.level != null">
+			      and n.level = #{qo.level}
+        </if>
+        <if test="qo.status  != null">
+			      and n.status = #{qo.status}
+        </if>
+      </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from notice
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Notice" useGeneratedKeys="true">
+    insert into notice (title, create_people, create_time, `level`, `status`, deleted,content
+      )
+    values (#{title}, #{createPeople.id}, #{createTime}, #{level}, #{status}, #{deleted},#{content}
+      )
+  </insert>
+  <insert id="insertRelative">
+    insert into notice_employee (employee_id, notice_id) VALUES (#{CreateEmployeeId},(select last_insert_id()))
+  </insert>
+  <insert id="insertRelationship" >
+    insert into notice_employee (notice_id,employee_id,  `read`) values (#{noticeId},#{employeeId},true)
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Notice" useGeneratedKeys="true">
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createPeople.id != null">
+        create_people,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+       <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title},
+      </if>
+      <if test="createPeople.id != null">
+        #{createPeople.id},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="level != null">
+        #{level},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Notice">
+    update notice
+    <set>
+      <if test="title != null">
+        title = #{title},
+      </if>
+      <if test="createPeople != null">
+      <if test="createPeople.id != null">
+        create_people = #{createPeople.id},
+      </if>
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="level != null">
+        `level` = #{level},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+        <if test="content != null">
+        content = #{content},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Notice">
+    update notice
+    set title = #{title},
+      create_people = #{createPeople.id},
+      create_time = #{createTime},
+      `level` = #{level},
+      `status` = #{status},
+      deleted = #{deleted},
+      content = #{content}
+    where id = #{id}
+  </update>
+  <update id="updateStatus">
+    update  notice set status = #{status}
+    where id = #{noticeId}
+  </update>
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.MessageBoardMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.MessageBoard">
+    <!--@Table message_board-->
+    <id column="mb_id" property="id"/>
+    <result column="nickname" property="nickname"/>
+    <result column="message_boardContent" property="content"/>
+    <result column="message_boardCreateTime" property="createTime"/>
+    <result column="status" property="replyStatus"/>
+    <association property="category" javaType="cn.linstudy.domain.SystemDictionary">
+      <result property="id" column="sdi1_id"/>
+      <result property="title" column="system_dictionaryTitle"/>
+    </association>
+    <association property="categoryItem" javaType="cn.linstudy.domain.SystemDictionaryItem">
+      <result property="id" column="sdi2_id"/>
+      <result property="title" column="system_dictionary_itemTitle"/>
+    </association>
+    <collection property="messageReply" ofType="cn.linstudy.domain.MessageReply">
+      <result property="id" column="mr_id"/>
+      <result property="content" column="message_replyContent"/>
+      <result property="createTime" column="message_replyReplyTime"/>
+      <association property="replyUser" javaType="cn.linstudy.domain.Employee">
+        <result property="id" column="e_id"/>
+        <result property="name" column="reply_name"/>
+      </association>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    nickname,
+    content,
+    create_time,
+    category_id,
+    category_item_id,
+    replyStatus
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from message_board
+    where id = #{id}
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select mb.id          mb_id,
+           nickname,
+           e.id           e_id,
+           e.name         reply_name,
+           mb.create_time message_boardCreateTime,
+           mr.create_time message_replyReplyTime,
+           sdi1.title     system_dictionaryTitle,
+           sdi1.id        sdi1_id,
+           sdi2.title     system_dictionary_itemTitle,
+           sdi2.id        sdi2_id,
+           mb.content     message_boardContent,
+           mr.content     message_replyContent,
+           mr.id          mr_id,
+           status
+    from message_board mb
+           left join message_reply mr on mr.message_id = mb.id
+           left join employee e on e.id = mr.reply_user_id
+           left join system_dictionary_item sdi1 on mb.category_id = sdi1.id
+           left join system_dictionary_item sdi2 on mb.category_item_id = sdi2.id
+    <where>
+      <if test="messageBoardId != null">
+        and mb.id = #{messageBoardId}
+      </if>
+    </where>
+    order by mb.create_time
+  </select>
+  <select id="selectForBoardId" resultMap="BaseResultMap">
+      select mb.id          mb_id,
+           nickname,
+           e.id           e_id,
+           e.name         reply_name,
+           mb.create_time message_boardCreateTime,
+           mr.create_time message_replyReplyTime,
+           sdi1.title     system_dictionaryTitle,
+           sdi1.id        sdi1_id,
+           sdi2.title     system_dictionary_itemTitle,
+           sdi2.id        sdi2_id,
+           mb.content     message_boardContent,
+           mr.content     message_replyContent,
+           mr.id          mr_id,
+           status
+    from message_board mb
+           left join message_reply mr on mr.message_id = mb.id
+           left join employee e on e.id = mr.reply_user_id
+           left join system_dictionary_item sdi1 on mb.category_id = sdi1.id
+           left join system_dictionary_item sdi2 on mb.category_item_id = sdi2.id
+    <where>
+      <if test="messageBoardId != null">
+        and mb.id = #{messageBoardId}
+      </if>
+    </where>
+   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete
+    from message_board
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.MessageBoard" useGeneratedKeys="true">
+    insert into message_board (nickname, content, create_time, category_id, category_item_id,
+                               replyStatus)
+    values (#{nickname}, #{content}, #{createTime}, #{category.id}, #{categoryItem.id},
+            #{replyStatus})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.MessageBoard" useGeneratedKeys="true">
+    insert into message_board
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="category.id != null">
+        category_id,
+      </if>
+      <if test="categoryItem.id != null">
+        category_item_id,
+      </if>
+      <if test="replyStatus != null">
+        replyStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        #{nickname},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="category.id != null">
+        #{category.id},
+      </if>
+      <if test="categoryItem.id != null">
+        #{categoryItem.id},
+      </if>
+      <if test="replyStatus != null">
+        #{replyStatus},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.MessageBoard">
+    update message_board
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname},
+      </if>
+      <if test="content != null">
+        content = #{content},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="category.id != null">
+        category_id = #{category.id},
+      </if>
+      <if test="categoryItem.id != null">
+        category_item_id = #{categoryItem.id},
+      </if>
+      <if test="replyStatus != null">
+        replyStatus = #{replyStatus},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.MessageBoard">
+    update message_board
+    set nickname         = #{nickname},
+        content          = #{content},
+        create_time      = #{createTime},
+        category_id      = #{category.id},
+        category_item_id = #{categoryItem.id},
+        replyStatus      = #{replyStatus}
+    where id = #{id}
+  </update>
+</mapper>

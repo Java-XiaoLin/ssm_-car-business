@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Activity">
+    <!--@Table activity-->
+    <id column="id" property="id"/>
+    <result column="title" property="title"/>
+    <result column="type" property="type"/>
+    <result column="status" property="status"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    title,
+    `type`,
+    `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from activity
+    where id = #{id}
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from activity
+  </select>
+  <insert id="vote">
+    insert into choice(employee_id, activity_item_id, create_time)
+    VALUES (#{employeeId}, #{activityId}, now())
+  </insert>
+  <update id="updateNum">
+    update activity_item set num = num+1 where id = #{activityItemId}
+  </update>
+
+  <select id="checkVote" resultMap="BaseResultMap">
+    select a.title, ai.content, e.name, e.id
+    from activity a
+           left join activity_item ai on ai.activity_id = a.id
+           left join choice c on c.activity_item_id = ai.id
+           left join employee e on e.id = c.employee_id
+    where e.id = #{employeeId}
+      and a.id = #{activityId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete
+    from activity
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Activity"
+    useGeneratedKeys="true">
+    insert into activity (title, `type`, `status`)
+    values (#{title}, #{type}, #{status})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.Activity" useGeneratedKeys="true">
+    insert into activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Activity">
+    update activity
+    <set>
+      <if test="title != null">
+        title = #{title},
+      </if>
+      <if test="type != null">
+        `type` = #{type},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Activity">
+    update activity
+    set title    = #{title},
+        `type`   = #{type},
+        `status` = #{status}
+    where id = #{id}
+  </update>
+</mapper>

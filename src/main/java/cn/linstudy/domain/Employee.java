@@ -1,5 +1,6 @@
 package cn.linstudy.domain;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -50,6 +51,11 @@ public class Employee implements Serializable {
 
   @ApiModelProperty(value = "部门")
   private Department department;
+
+  @Override
+  public String toString() {
+    return JSON.toJSONString(this);
+  }
 
   private static final long serialVersionUID = 1L;
 

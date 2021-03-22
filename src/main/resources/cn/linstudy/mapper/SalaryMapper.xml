@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linstudy.mapper.SalaryMapper">
+  <resultMap id="BaseResultMap" type="cn.linstudy.domain.Salary">
+    <!--@Table salary-->
+    <id column="s_id" property="id"/>
+    <result column="money" property="money"/>
+    <result column="year" property="year"/>
+    <result column="month" property="month"/>
+    <association property="employee" javaType="cn.linstudy.domain.Employee">
+      <result column="e_id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
+    <association property="payoutType" javaType="cn.linstudy.domain.SystemDictionaryItem">
+      <result column="i_id" property="id"/>
+      <result column="title" property="title"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    money,
+    `year`,
+    `month`,
+    employee_id,
+    payout_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from salary
+    where id = #{id}
+  </select>
+  <select id="selectForPage" resultMap="BaseResultMap">
+    select s.id s_id, money, year, month, e.name, i.title, i.id i_id,e.id e_id
+    from salary s
+           left join employee e on e.id = s.employee_id
+           left join system_dictionary_item i on i.id = s.payout_id
+    <where>
+      <if test="keyword != null and keyword != ''">
+        and e.name like concat('%', #{keyword}, '%')
+      </if>
+      <if test="systemDictionaryItem_id != null">
+        and i.id = #{systemDictionaryItem_id}
+      </if>
+      <if test="minSalary != null">
+        and money >= #{minSalary}
+      </if>
+      <if test="minSalary != null">
+        and money &lt;= #{maxSalary}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete
+    from salary
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.linstudy.domain.Salary"
+    useGeneratedKeys="true">
+    insert into salary (money, `year`, `month`, employee_id, payout_id)
+    values (#{money}, #{year}, #{month}, #{employee.id}, #{payoutType.id})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="cn.linstudy.domain.Salary" useGeneratedKeys="true">
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="money != null">
+        money,
+      </if>
+      <if test="year != null">
+        `year`,
+      </if>
+      <if test="month != null">
+        `month`,
+      </if>
+      <if test="employee.id != null">
+        employee_id,
+      </if>
+      <if test="payoutType.id != null">
+        payout_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="money != null">
+        #{money},
+      </if>
+      <if test="year != null">
+        #{year},
+      </if>
+      <if test="month != null">
+        #{month},
+      </if>
+      <if test="employee.id != null">
+        #{employee.id},
+      </if>
+      <if test="payoutType.id != null">
+        #{payoutType.id},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.linstudy.domain.Salary">
+    update salary
+    <set>
+      <if test="money != null">
+        money = #{money},
+      </if>
+      <if test="year != null">
+        `year` = #{year},
+      </if>
+      <if test="month != null">
+        `month` = #{month},
+      </if>
+      <if test="employee.id != null">
+        employee_id = #{employee.id},
+      </if>
+      <if test="payoutType.id != null">
+        payout_id = #{payoutType.id},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.linstudy.domain.Salary">
+    update salary
+    set money       = #{money},
+        `year`      = #{year},
+        `month`     = #{month},
+        employee_id = #{employee.id},
+        payout_id   = #{payoutType.id}
+    where id = #{id}
+  </update>
+</mapper>

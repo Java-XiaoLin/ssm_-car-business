@@ -65,4 +65,6 @@ public interface EmployeeMapper {
         * @return cn.linstudy.domain.Employee
         */
     Employee selectForEmail(String email);
+
+    List<Employee> selectAllEmployee();
 }

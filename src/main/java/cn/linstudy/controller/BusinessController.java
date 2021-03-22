@@ -1,11 +1,14 @@
 package cn.linstudy.controller;
 
 import cn.linstudy.domain.Business;
+import cn.linstudy.domain.Employee;
 import cn.linstudy.qo.BusinessQueryObject;
 import cn.linstudy.service.BusinessService;
+import cn.linstudy.service.NoticeService;
 import cn.linstudy.utils.FileUploadUtil;
 import com.github.pagehelper.PageInfo;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,9 @@ public class BusinessController {
   @Autowired
   BusinessService businessService;
 
+  @Autowired
+  NoticeService noticeService;
+
   /**
       * @Description:查询所有门店
       * @author XiaoLin
@@ -36,6 +42,7 @@ public class BusinessController {
       */
   @RequestMapping("list")
   public String listAll(@ModelAttribute("qo") BusinessQueryObject qo, Model model){
+
     PageInfo<Business> businessPageInfo = businessService.selectForPage(qo);
     model.addAttribute("pageInfo",businessPageInfo);
     return "/business/list";
