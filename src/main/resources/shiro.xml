@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="myRealm" class="cn.linstudy.shiro.CarBusinessRealm"/>
+  <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    <property name="realm" ref="myRealm"/>
+  </bean>
+  <bean id="shiroFilter"
+    class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    <!--引用指定的安全管理器-->
+    <property name="securityManager" ref="securityManager"/>
+    <!--shiro默认的登录地址是/login.jsp 现在要指定我们自己的登录页面地址-->
+    <property name="loginUrl" value="/login.html"/>
+    <!--路径对应的规则-->
+    <property name="filterChainDefinitions">
+      <!--配置请求拦截的方式，是可以匿名还是-->
+      <value>
+        /empLogin=anon
+        /static/**=anon
+        /upload/**=anon
+        /getImage=anon
+        /getEmailCode=anon
+        /checkEmail=anon
+        /checkUsername=anon
+        /error=anon
+        /fronted/**=anon
+        /logout=logout
+        /registered.html=anon
+        /**=authc
+      </value>
+    </property>
+  </bean>
+</beans>

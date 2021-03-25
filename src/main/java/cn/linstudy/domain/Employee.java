@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,6 +50,8 @@ public class Employee implements Serializable {
 
   @ApiModelProperty(value = "部门")
   private Department department;
+
+  private Notice notices;
 
   @Override
   public String toString() {

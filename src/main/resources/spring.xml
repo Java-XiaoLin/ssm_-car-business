@@ -1,87 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-
-    <!-- 关联 db.properties 文件 -->
-    <context:property-placeholder location="classpath:db.properties"/>
-    <!-- 配置 DataSource bean -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-      init-method="init"
-      destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-    </bean>
-    <!-- 配置 SqlSessionFactory bean -->
-    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="typeAliasesPackage" value="cn.linstudy.domain"/>
-        <property name="mapperLocations" value="classpath:cn/linstudy/mapper/*.xml"/>
-        <!-- 注意其他配置 -->
-        <property name="plugins">
-            <array>
-                <bean class="com.github.pagehelper.PageInterceptor">
-                    <property name="properties">
-                        <!--使用下面的方式配置参数，一行配置一个，下面配的是合理化分页 -->
-                        <value>
-                            pageSizeZero=true
-                            reasonable=true
-                        </value>
-                    </property>
-                </bean>
-            </array>
-        </property>
-    </bean>
-
-
-    <!-- 配置 SqlSessionFactory bean -->
-
-        <!-- 关联主配置文件 目前可以不配置-->
-        <!-- 配置别名 若不用别名,可以不配置 -->
-        <!-- 配置数据源-->
-        <!-- 关联 Mapper XML 可以不配置, 前提编译 Mapper 接口字节码文件与 Mapper XML 文件在一起,文件名也一样 -->
-
-    <!-- 配置 Mapper 接口的实现类对象 -->
-        <!-- 指定 Mapper 接口所在包 -->
-    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.linstudy.mapper"/>
-    </bean>
-
-    <!-- 配置 IoC DI 注解解析器 , 让 Spring 帮我们创建业务接口的实现类对象, 完成字段注入 -->
-    <context:component-scan base-package="cn.linstudy.service"/>
+  <!-- 关联 db.properties 文件 -->
+  <context:property-placeholder location="classpath:db.properties"/>
+  <!-- 配置 DataSource bean -->
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+    init-method="init"
+    destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+  <!-- 配置 SqlSessionFactory bean -->
+  <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="typeAliasesPackage" value="cn.linstudy.domain"/>
+    <property name="mapperLocations" value="classpath:cn/linstudy/mapper/*.xml"/>
+    <!-- 注意其他配置 -->
+    <property name="plugins">
+      <array>
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <!--使用下面的方式配置参数，一行配置一个，下面配的是合理化分页 -->
+            <value>
+              pageSizeZero=true
+              reasonable=true
+            </value>
+          </property>
+        </bean>
+      </array>
+    </property>
+  </bean>
 
 
+  <!-- 配置 SqlSessionFactory bean -->
 
-    <!-- 配置事务管理器 WHAT-->
-    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
+  <!-- 关联主配置文件 目前可以不配置-->
+  <!-- 配置别名 若不用别名,可以不配置 -->
+  <!-- 配置数据源-->
+  <!-- 关联 Mapper XML 可以不配置, 前提编译 Mapper 接口字节码文件与 Mapper XML 文件在一起,文件名也一样 -->
+
+  <!-- 配置 Mapper 接口的实现类对象 -->
+  <!-- 指定 Mapper 接口所在包 -->
+  <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="cn.linstudy.mapper"/>
+  </bean>
+
+  <!-- 配置 IoC DI 注解解析器 , 让 Spring 帮我们创建业务接口的实现类对象, 完成字段注入 -->
+  <context:component-scan base-package="cn.linstudy.service"/>
 
 
-    <!-- 配置增强, WHEN, 并关联上面 WHAT-->
-    <tx:advice id="interceptor" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="get" read-only="true"/>
-            <tx:method name="select" read-only="true"/>
-            <tx:method name="list" read-only="true"/>
-            <tx:method name="query" read-only="true"/>
-            <tx:method name="count" read-only="true"/>
-            <tx:method name="*"/>
-        </tx:attributes>
-    </tx:advice>
-    <!-- 配置 AOP -->
-    <aop:config>
-        <aop:pointcut id="txPoint" expression="execution(* cn.linstudy.service.impl.*ServiceImpl.*(..))"/>
-        <aop:advisor advice-ref="interceptor" pointcut-ref="txPoint"/>
-    </aop:config>
-        <!-- WHERE -->
-        <!-- 关联 WHERE WHEN-->
+  <!-- 配置事务管理器 WHAT-->
+  <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+    id="transactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+
+  <!-- 配置增强, WHEN, 并关联上面 WHAT-->
+  <tx:advice id="interceptor" transaction-manager="transactionManager">
+    <tx:attributes>
+      <tx:method name="get" read-only="true"/>
+      <tx:method name="select" read-only="true"/>
+      <tx:method name="list" read-only="true"/>
+      <tx:method name="query" read-only="true"/>
+      <tx:method name="count" read-only="true"/>
+      <tx:method name="*"/>
+    </tx:attributes>
+  </tx:advice>
+  <!-- 配置 AOP -->
+  <aop:config>
+    <aop:pointcut id="txPoint"
+      expression="execution(* cn.linstudy.service.impl.*ServiceImpl.*(..))"/>
+    <aop:advisor advice-ref="interceptor" pointcut-ref="txPoint"/>
+  </aop:config>
+  <!-- WHERE -->
+  <!-- 关联 WHERE WHEN-->
+
+  <!--开启shiro注解扫描-->
+  <aop:config/>
+
+  <!-- Pointcut advisor通知器， 会匹配所有加了shiro权限注解的方法 -->
+  <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    <property name="securityManager" ref="securityManager"/>
+  </bean>
 
 </beans>

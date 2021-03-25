@@ -1,82 +1,79 @@
 package cn.linstudy.service;
 
 import cn.linstudy.domain.Employee;
-import cn.linstudy.domain.Permission;
 import cn.linstudy.domain.Role;
 import cn.linstudy.qo.EmployeeQueryObject;
-import cn.linstudy.qo.response.ResponseResult;
 import cn.linstudy.vo.EmployeeInsertVO;
 import com.github.pagehelper.PageInfo;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletOutputStream;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @Description 
- * @Author  XiaoLin
- * @Date  2021/3/8 13:55
+ * @Description
+ * @Author XiaoLin
+ * @Date 2021/3/8 13:55
  */
 
-public interface EmployeeService{
+public interface EmployeeService {
 
 
-    void deleteByPrimaryKey(Long id);
+  void deleteByPrimaryKey(Long id);
 
-    int insert(Employee record);
+  int insert(Employee record);
 
-    void save(Employee employee,Long[] ids);
+  void save(Employee employee, Long[] ids);
 
-    Employee selectByPrimaryKey(Long id);
+  Employee selectByPrimaryKey(Long id);
 
-    void update(Employee employee,Long[] ids);
+  void update(Employee employee, Long[] ids);
 
-    int updateByPrimaryKey(Employee record);
+  int updateByPrimaryKey(Employee record);
 
-    PageInfo<Employee>  selectForPage(EmployeeQueryObject qo);
+  PageInfo<Employee> selectForPage(EmployeeQueryObject qo);
 
 
-    /**
-        * @Description:根据部门id查询员工
-        * @author XiaoLin
-        * @date 2021/3/13
-        * @Param: [id]
-        * @return int
-        */
-    int listForDeptId(Long id);
+  /**
+   * @return int
+   * @Description:根据部门id查询员工
+   * @author XiaoLin
+   * @date 2021/3/13
+   * @Param: [id]
+   */
+  int listForDeptId(Long id);
 
-    Employee login(String username, String password,String captcha,String code_in_session);
+  Employee login(String username, String password, String captcha, String code_in_session);
 
-    List<Employee> selectAll();
+  List<Employee> selectAll();
 
-    List<Role> selectRolesById(Long id);
+  List<Role> selectRolesById(Long id);
 
-    Employee selectByUsername(String username);
+  Employee selectByUsername(String username);
 
-    void regsiter(EmployeeInsertVO employeeVO);
+  void regsiter(EmployeeInsertVO employeeVO);
 
-    List<Permission>getPermissionByEmployeeId(Long id);
+  List<String> getPermissionByEmployeeId(Long id);
 
-    void  exportEmployeeExel(ServletOutputStream outputStream) throws IOException;
+  void exportEmployeeExel(ServletOutputStream outputStream) throws IOException;
 
-    void importEmployeeFromExel(MultipartFile file) throws IOException;
-    
-    /**
-        * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
-        * @author XiaoLin
-        * @date 2021/3/14
-        * @Param: [email]
-        * @return cn.linstudy.domain.Employee
-        */
-    Employee selectForEmail(String email);
+  void importEmployeeFromExel(MultipartFile file) throws IOException;
 
-    /**
-        * @Description:查询所有员工
-        * @author XiaoLin
-        * @date 2021/3/20
-        * @Param: []
-        * @return java.util.List<cn.linstudy.domain.Employee>
-        */
-    List<Employee> selectAllEmployee();
+  /**
+   * @return cn.linstudy.domain.Employee
+   * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
+   * @author XiaoLin
+   * @date 2021/3/14
+   * @Param: [email]
+   */
+  Employee selectForEmail(String email);
+
+  /**
+   * @return java.util.List<cn.linstudy.domain.Employee>
+   * @Description:查询所有员工
+   * @author XiaoLin
+   * @date 2021/3/20
+   * @Param: []
+   */
+  List<Employee> selectAllEmployee();
 }

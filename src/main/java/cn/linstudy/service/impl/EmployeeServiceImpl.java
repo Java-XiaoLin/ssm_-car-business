@@ -1,10 +1,11 @@
 package cn.linstudy.service.impl;
 
-import cn.linstudy.domain.Permission;
+import cn.linstudy.domain.Employee;
 import cn.linstudy.domain.Role;
 import cn.linstudy.exception.CarBussinessException;
+import cn.linstudy.mapper.EmployeeMapper;
 import cn.linstudy.qo.EmployeeQueryObject;
-import cn.linstudy.qo.response.ResponseResult;
+import cn.linstudy.service.EmployeeService;
 import cn.linstudy.vo.EmployeeInsertVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,17 +13,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpSession;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.linstudy.domain.Employee;
-import cn.linstudy.mapper.EmployeeMapper;
-import cn.linstudy.service.EmployeeService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,10 +74,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     // 删除中间表的关系
     employeeMapper.deleteRelation(employee.getId());
     // 插入新的关系
-    if (ids != null){
-        for (Long roleId : ids){
-            employeeMapper.insertRelation(employee.getId(),roleId);
-        }
+    if (ids != null) {
+      for (Long roleId : ids) {
+        employeeMapper.insertRelation(employee.getId(), roleId);
+      }
     }
   }
 
@@ -92,40 +93,45 @@ public class EmployeeServiceImpl implements EmployeeService {
     return new PageInfo<Employee>(employees);
   }
 
-    /**
-        * @Description:根据id查询员工
-        * @author XiaoLin
-        * @date 2021/3/13
-        * @Param: [id]
-        * @return int
-        */
-    @Override
-    public int listForDeptId(Long id) {
-      return employeeMapper.listForDeptId(id);
-    }
+  /**
+   * @return int
+   * @Description:根据id查询员工
+   * @author XiaoLin
+   * @date 2021/3/13
+   * @Param: [id]
+   */
+  @Override
+  public int listForDeptId(Long id) {
+    return employeeMapper.listForDeptId(id);
+  }
 
 
   @Override
-  public Employee login(String username, String password,String captcha,String code_in_session) {
-    if (!captcha.equalsIgnoreCase(code_in_session)){
-      throw  new CarBussinessException("验证码错误");
+  public Employee login(String username, String password, String captcha, String code_in_session) {
+    if (!captcha.equalsIgnoreCase(code_in_session)) {
+      throw new CarBussinessException("验证码错误");
 
-    }else {
+    } else {
       if (StringUtils.isEmpty(username)) {
-        throw  new CarBussinessException("用户名不可以为空");
+        throw new CarBussinessException("用户名不可以为空");
 
       }
       if (StringUtils.isEmpty(password)) {
-        throw  new CarBussinessException("密码不可以为空");
+        throw new CarBussinessException("密码不可以为空");
       }
-      Employee employee = employeeMapper.selectByUsername(username);
-      if (employee == null) {
-        throw  new CarBussinessException("用户名错误");
+      try {
+        // 对传进来的密码进行加密
+        Md5Hash md5Hash = new Md5Hash(password, username, 1024);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, md5Hash.toString());
+        SecurityUtils.getSubject().login(token);
+        Employee employee = employeeMapper.selectByUsername(username);
+        return employee;
+      } catch (UnknownAccountException e) {
+        throw new CarBussinessException("用户名错误");
+      } catch (IncorrectCredentialsException e) {
+        throw new CarBussinessException("密码错误");
       }
-      if (!employee.getPassword().equals(password)) {
-        throw  new CarBussinessException("密码错误");
-      }
-     return employee;
+
     }
   }
 
@@ -146,16 +152,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public void regsiter(EmployeeInsertVO employeeVO) {
-     employeeMapper.register(employeeVO);
+    employeeMapper.register(employeeVO);
   }
 
   @Override
-  public List<Permission> getPermissionByEmployeeId(Long id) {
+  public List<String> getPermissionByEmployeeId(Long id) {
     return employeeMapper.getPermissionByEmployeeId(id);
   }
 
   @Override
-  public void  exportEmployeeExel(ServletOutputStream outputStream) throws IOException {
+  public void exportEmployeeExel(ServletOutputStream outputStream) throws IOException {
     // 创建excel文件
     Workbook wb = new HSSFWorkbook();
     // 创建sheet
@@ -176,7 +182,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     for (int i = 0; i < employees.size(); i++) {
       Employee employee = employees.get(i);
       // 创建行，第0行已经给标题了
-      row = sheet.createRow(i+1);
+      row = sheet.createRow(i + 1);
       // 设置内容到单元格中
       row.createCell(0).setCellValue(employee.getId());
       row.createCell(1).setCellValue(employee.getUsername());
@@ -190,12 +196,12 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   /**
-      * @Description:员工通讯录文件上传
-      * @author XiaoLin
-      * @date 2021/3/12
-      * @Param: [file]
-      * @return void
-      */
+   * @return void
+   * @Description:员工通讯录文件上传
+   * @author XiaoLin
+   * @date 2021/3/12
+   * @Param: [file]
+   */
   @Override
   public void importEmployeeFromExel(MultipartFile file) throws IOException {
     // 可以用来记录成功失败的数量
@@ -206,7 +212,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     Sheet sheet = wb.getSheetAt(0);
     // 读取所有的行数
     int lastRowNum = sheet.getLastRowNum();
-    for (int i= 1;i<=lastRowNum;i++){
+    for (int i = 1; i <= lastRowNum; i++) {
       Row row = sheet.getRow(i);
       Employee employee = new Employee();
       // 获取第一行第0列的数据,进行赋值
@@ -223,12 +229,12 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   /**
-      * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
-      * @author XiaoLin
-      * @date 2021/3/14
-      * @Param: [email]
-      * @return cn.linstudy.domain.Employee
-      */
+   * @return cn.linstudy.domain.Employee
+   * @Description:根据邮箱查询用户，用于进行注册时邮箱检测
+   * @author XiaoLin
+   * @date 2021/3/14
+   * @Param: [email]
+   */
   @Override
   public Employee selectForEmail(String email) {
     return employeeMapper.selectForEmail(email);

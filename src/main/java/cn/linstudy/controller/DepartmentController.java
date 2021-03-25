@@ -1,5 +1,5 @@
 package cn.linstudy.controller;
-import cn.linstudy.annotation.RequiredPermission;
+
 import cn.linstudy.domain.Department;
 import cn.linstudy.qo.DepartmentQueryObject;
 import cn.linstudy.qo.response.ResponseResult;
@@ -28,71 +28,67 @@ public class DepartmentController {
   EmployeeService employeeService;
 
   /**
-      * @Description: 查询所有部门
-      * @author XiaoLin
-      * @date 2021/3/13
-      * @Param: [qo, model]
-      * @return java.lang.String
-      */
-  @RequiredPermission(name = "查询所有部门",expression = "/department/list")
+   * @return java.lang.String
+   * @Description: 查询所有部门
+   * @author XiaoLin
+   * @date 2021/3/13
+   * @Param: [qo, model]
+   */
   @RequestMapping("/list")
-  public String selectForPage(DepartmentQueryObject qo, Model model){
+  public String selectForPage(DepartmentQueryObject qo, Model model) {
     // 拿到DepartmentService返回的PageInfo对象
     PageInfo<Department> pageInfo = departmentService.selectForPage(qo);
     // 放到Model中，方便前端展示
-    model.addAttribute("pageInfo",pageInfo);
+    model.addAttribute("pageInfo", pageInfo);
     // 返回前端界面
     return "department/list";
   }
 
   /**
-      * @Description:增加部门
-      * @author XiaoLin
-      * @date 2021/3/13
-      * @Param: [department]
-      * @return java.lang.String
-      */
-  @RequiredPermission(name = "增加部门",expression = "/department/save")
+   * @return java.lang.String
+   * @Description:增加部门
+   * @author XiaoLin
+   * @date 2021/3/13
+   * @Param: [department]
+   */
   @RequestMapping("/save")
   @ResponseBody
-  public String save(Department department){
+  public String save(Department department) {
     departmentService.insert(department);
     return "redirect:/department/list";
   }
 
 
   /**
-      * @Description:增加或者修改部门
-      * @author XiaoLin
-      * @date 2021/3/13
-      * @Param: [id, department]
-      * @return java.lang.String
-      */
-  @RequiredPermission(name = "增加或者修改部门",expression = "/department/saveOrUpdate")
+   * @return java.lang.String
+   * @Description:增加或者修改部门
+   * @author XiaoLin
+   * @date 2021/3/13
+   * @Param: [id, department]
+   */
   @RequestMapping("saveOrUpdate")
-  public String saveOrUpdate(Long id,Department department){
+  public String saveOrUpdate(Long id, Department department) {
     // 如果id为空，说明是新增
-    if(id == null){
+    if (id == null) {
       // 调用新增方法
       departmentService.insertSelective(department);
       return "redirect:/department/list";
-    }else {
+    } else {
       // 否则id不为空就是修改
       departmentService.updateByPrimaryKeySelective(department);
       return "redirect:/department/list";
     }
   }
 
-  @RequiredPermission(name = "删除部门",expression = "/department/delete")
   @RequestMapping("delete")
   @ResponseBody
-  public ResponseResult delte(Long id){
+  public ResponseResult delte(Long id) {
     int count = employeeService.listForDeptId(id);
-    if (count == 0){
+    if (count == 0) {
       departmentService.deleteByPrimaryKey(id);
-      return new ResponseResult(true,"删除成功");
-    }else {
-      return new ResponseResult(false,"该部门旗下还有员工，不可以删除");
+      return new ResponseResult(true, "删除成功");
+    } else {
+      return new ResponseResult(false, "该部门旗下还有员工，不可以删除");
     }
 
   }

@@ -1,5 +1,5 @@
 package cn.linstudy.controller;
-import cn.linstudy.annotation.RequiredPermission;
+
 import cn.linstudy.domain.Department;
 import cn.linstudy.domain.Employee;
 import cn.linstudy.domain.Role;
@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,57 +41,59 @@ public class EmployeeController {
   @Autowired
   RoleService roleService;
 
-
-  @RequiredPermission(name = "查询所有员工",expression = "/employee/list")
+  // shiro注解无法使用name属性，所以约定，value中第一个位置的值是权限表达式，第二个位置的值是权限名称.
+  // 但是 logical 的值必须是Logical.OR
+  @RequiresPermissions(value = {"employee:list", "员工列表"}, logical = Logical.OR)
   @RequestMapping("list")
-  public String listAll( @ModelAttribute("qo") EmployeeQueryObject employeeQueryObject , Model model, DepartmentQueryObject departmentQueryObject){
-    PageInfo<Employee>  pageInfo= employeeService.selectForPage(employeeQueryObject);
+  public String listAll(@ModelAttribute("qo") EmployeeQueryObject employeeQueryObject, Model model,
+      DepartmentQueryObject departmentQueryObject) {
+    PageInfo<Employee> pageInfo = employeeService.selectForPage(employeeQueryObject);
     List<Department> departments = departmentService.selectAll();
     List<Role> roles = roleService.selectAll();
-    model.addAttribute("departments",departments);
-    model.addAttribute("roles",roles);
-    model.addAttribute("pageInfo",pageInfo);
+    model.addAttribute("departments", departments);
+    model.addAttribute("roles", roles);
+    model.addAttribute("pageInfo", pageInfo);
     return "employee/list";
   }
 
   @RequestMapping("tosaveOrUpdate")
-  public String tosaveOrUpdate(Long id, Model model,DepartmentQueryObject qo){
+  public String tosaveOrUpdate(Long id, Model model, DepartmentQueryObject qo) {
     Employee employee = employeeService.selectByPrimaryKey(id);
-    List<Role> selectRolesById= employeeService.selectRolesById(id);
+    List<Role> selectRolesById = employeeService.selectRolesById(id);
     List<Department> departments = departmentService.selectAll();
     List<Role> roles = roleService.selectAll();
     employeeService.selectAll();
-    model.addAttribute("departments",departments);
-    if (id == null){
-      model.addAttribute("roles",roles);
+    model.addAttribute("departments", departments);
+    if (id == null) {
+      model.addAttribute("roles", roles);
       return "employee/input";
     }
-    model.addAttribute("selectRolesById",selectRolesById);
+    model.addAttribute("selectRolesById", selectRolesById);
 
-    model.addAttribute("roles",roles);
-    model.addAttribute("employee",employee);
+    model.addAttribute("roles", roles);
+    model.addAttribute("employee", employee);
     return "employee/input";
   }
 
   @RequestMapping("saveOrUpdate")
-  public String saveOrUpdate(Long id,Employee employee,Long[] ids){
-    if (id != null){
-      employeeService.update(employee,ids);
+  public String saveOrUpdate(Long id, Employee employee, Long[] ids) {
+    if (id != null) {
+      employeeService.update(employee, ids);
       return "redirect:/employee/list";
-    }else {
-    employeeService.save(employee,ids);
+    } else {
+      employeeService.save(employee, ids);
     }
     return "redirect:/employee/list";
   }
 
   @RequestMapping("delete")
-  public String delete(Long id){
+  public String delete(Long id) {
     employeeService.deleteByPrimaryKey(id);
     return "redirect:/employee/list";
   }
 
   @RequestMapping("toNoPermissionPage")
-  public String toNoPermissionPage(){
+  public String toNoPermissionPage() {
     return "/common/nopermission";
   }
 
@@ -99,9 +102,9 @@ public class EmployeeController {
   public void exportEmployeeExel(HttpServletResponse response) throws IOException {
     String FileName = new String("员工通讯录.xls".getBytes(StandardCharsets.UTF_8), "ISO-8859-1");
     // 文件下载的响应头（让浏览器访问资源的时候以下载的方式打开）
-    response.setHeader("Content-Disposition","attachment;filename="+FileName);
+    response.setHeader("Content-Disposition", "attachment;filename=" + FileName);
     // 创建excel文件
-     employeeService.exportEmployeeExel( response.getOutputStream());
+    employeeService.exportEmployeeExel(response.getOutputStream());
   }
 
   @RequestMapping("importEmployeeFromExel")

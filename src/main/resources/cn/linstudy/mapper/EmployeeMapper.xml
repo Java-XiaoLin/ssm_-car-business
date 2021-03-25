@@ -113,7 +113,7 @@
   select <include refid="Base_Column_List"/> from employee
   where email = #{email}
   </select>
-  <select id="getPermissionByEmployeeId" resultType="Permission">
+  <select id="getPermissionByEmployeeId" resultType="string">
     select p.name,p.id,p.expression
     from permission p
            join role_permission r_p
