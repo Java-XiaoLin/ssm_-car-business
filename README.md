@@ -24,6 +24,6 @@ ssm、Freemaker、Shiro、RBAC、RCM、阿里云短信验证、邮箱服务
 
 #### 截图
 
-[图片上传中…(image-8dMsIJk2WaGFARUo2tTP)]
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0325/132616_2bb7eb55_6526061.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0325/132214_ec9ad9c5_6526061.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0325/132208_897dfe1f_6526061.png "屏幕截图.png")
